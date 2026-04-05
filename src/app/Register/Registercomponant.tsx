@@ -45,6 +45,8 @@ export default function Registercomponant() {
 
     async function handelregisterData(userData: RegisterInterface) {
         const res = await sendRegisterData(userData)
+        // console.log("userData",userData);
+        
 
         if (res === "success") {
             toast.success(res, {

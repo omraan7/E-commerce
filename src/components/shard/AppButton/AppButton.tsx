@@ -38,7 +38,7 @@ const {updateCartNumber} = useCartContext()
        
         if (res) {
         
-            toast.success("Cart cleared successfully")
+            toast.success("Cart cleared successffffffffffffffffffffffffffffffffffffully")
             updateCartNumber(res.numOfCartItems)
            
         }

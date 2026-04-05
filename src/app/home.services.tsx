@@ -15,3 +15,12 @@ export  async function getAllProducts( ): Promise<AllProductData[]>  {
     const data : productDetilsResponse = await res.json();
     return data.data
   }
+
+
+
+
+   export async function getreviewProduct(id:string): Promise<AllProductData>  {
+    const res =await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/products/${id}/reviews`);
+    const data : productDetilsResponse = await res.json();
+    return data.data
+  }   

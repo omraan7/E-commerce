@@ -14,7 +14,7 @@
     
 // }
 
-import { decode } from "next-auth/jwt";
+ import { decode } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
 interface MyJWT {
@@ -32,4 +32,5 @@ const NextAuthToken = cookie.get("next-auth.session-token")?.value
   const decoded = await decode({ secret: process.env.NEXTAUTH_SECRET!, token: NextAuthToken }) as MyJWT | null;
 
   return decoded?.accessToken ?? null;
+
 }

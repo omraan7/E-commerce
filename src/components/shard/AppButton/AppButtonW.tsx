@@ -20,7 +20,7 @@ const {updateWishNumber} = useCartContext()
     
     async function handelAddProductToWishlist() {
         const res = await handelAddProductTOWishlist(id)
-         console.log( "resposssns",res);
+        //  console.log( "resposssns",res);
          
         
         if (res) {

@@ -118,7 +118,8 @@
 
 @theme{
 --color-main-color:#16A34A;
-  --color-min-color: #A7F3D0;
+  --color-min-color: #d6edea;
+  --color-second-color: #254b15;
 }
 @layer base {
   * {

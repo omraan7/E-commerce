@@ -25,11 +25,13 @@ export async function getCartData(): Promise<CartResponse | null> {
         );
 
         const data: CartResponse = await req.json();
+       
+        
 
         return data
 
     } else {
-        console.log("session is not valid");
+        // console.log("session is not valid");
         return null
 
     }
@@ -93,7 +95,7 @@ export async function deleteAllProductFromCart() {
     const data = await req.json();
             revalidatePath("/cart");
 
-    console.log("data from delete ALL", data);
+    // console.log("data from delete ALL", data);
     
     
 
@@ -124,7 +126,7 @@ export async function handelAddProduct(id: string) {
             const data = await req.json();
             revalidatePath("/cart");
 
-            console.log("handelAddProduct", data);
+            // console.log("handelAddProduct", data);
 
 
             return data

@@ -73,6 +73,25 @@ export default function LoginComponant() {
 
     return (
         <>
+         <div className="flex  justify-center items-center  gap-3 w-full">
+
+      {/* Google */}
+      <button
+        onClick={() => signIn("google" ,{redirectTo:"/"})}
+        className="flex items-center justify-center gap-2 p-5 bg-white text-black border rounded-lg py-2 hover:bg-gray-100"
+      >
+         Continue with Google
+      </button>
+
+      {/* Facebook */}
+      <button
+        onClick={() => signIn("facebook")}
+        className="flex items-center justify-center gap-2 p-5 bg-blue-400 text-white rounded-lg py-2 hover:bg-blue-700"
+      >
+         Continue with Facebook
+      </button>
+
+    </div>
             <form onSubmit={handleSubmit(handelLoginData)}>
 
 

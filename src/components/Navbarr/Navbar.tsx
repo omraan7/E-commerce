@@ -60,7 +60,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationMenuDemo() {
   const session = useSession()
-  // console.log(session);
+  console.log("session",session);
   const username = session.data?.user?.name
   const isAuthenticated = session.status === "authenticated"
   const router = useRouter()
@@ -119,7 +119,11 @@ export default function NavigationMenuDemo() {
                   <Link href="/">Home</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
+               <NavigationMenuItem className="hidden lg:flex">
+                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
+                  <Link href="/shop">Shop</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
               <NavigationMenuItem className="hidden lg:flex">
                 <NavigationMenuTrigger><Link href="/Categories">Categories  fgdfgfd</Link></NavigationMenuTrigger>

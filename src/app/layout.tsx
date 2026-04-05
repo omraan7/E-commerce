@@ -13,7 +13,8 @@ import { getCartData } from "./cart/cartAction";
 import { CartResponse } from "./cart/cartInterface";
 import { getwishlistData } from "./wishlist/cartAction";
 import { WishlistResponse } from "./wishlist/cartInterface";
-
+import Footer from "@/components/footer/Footer";
+ 
 const inter = Exo({ subsets: ['latin'], variable: '--font-Exo' });
 
 
@@ -35,17 +36,18 @@ export default async function RootLayout({
       <body
         className={`  antialiased`}
       >
-        <CartContextProvider res={res} req={req}>
+         <CartContextProvider res={res} req={req}>
 
-
+        
           <WrapeSession>
             <Navbar />
             {children}
+            <Footer />
             <Toaster />
           </WrapeSession>
 
         </CartContextProvider>
-      </body>
+       </body>
     </html>
   );
 }

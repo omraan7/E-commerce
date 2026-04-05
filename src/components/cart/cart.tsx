@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 
 export default function Cart({ pro }: { pro: CartItem }) {
-//   console.log("gfrtyuioiuytry",pro);
+  console.log("gfrtyuioiuytry",pro);
   
   
   const {updateCartNumber} = useCartContext()

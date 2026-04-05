@@ -8,6 +8,7 @@ import img3 from "../asssets/img/poert1.png"
 // import AllCategories from "@/components/AllCategories/AllCategories";
 import { lazy, Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import TopofCategories from "@/components/AllCategories/TopofCategories";
 
 const imageslist = [img.src, img2.src, img3.src]
 const AllCategories = lazy(() => import("@/components/AllCategories/AllCategories"))
@@ -21,6 +22,7 @@ export default async function page() {
     <AppSlider spaceBetween={0} imageslist={imageslist} />
 
       </div>
+      <TopofCategories/>
       <Suspense fallback={<div className="bg-black flex justify-center  h-80  text-white items-center">   <Spinner /></div>}>
         <AllCategories className="hover:text-main-color    text-center" imdgclass="rounded-full" />
       </Suspense>

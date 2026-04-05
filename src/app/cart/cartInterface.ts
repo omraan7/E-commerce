@@ -1,5 +1,5 @@
 export interface CartResponse {
-status: 'success' | 'error';
+  status: 'success' | 'error';
   message: string;
   numOfCartItems: number;
   cartId: string;
@@ -31,8 +31,8 @@ export interface Product {
   imageCover: string;
   category: Category;
   brand: Brand;
-   ratingsAverage: number;
-  id: string; 
+  ratingsAverage: number;
+  id: string;
 }
 interface Brand {
   _id: string;
