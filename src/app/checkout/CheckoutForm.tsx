@@ -10,9 +10,11 @@ import { Address, shippingAddress } from './checkinterface';
 import { handelCachOrder, handelOnlineOrder } from './checkaction';
  import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useCartContext } from '../_context/CartContextProvider';
+// import { useCartContext } from '../_context/CartContextProvider';
 import { deleteItemActionAll, getCartDataAll } from '../cart/cart.services';
 import { CartResponse } from '../cart/cartInterface';
+import { useDispatch } from 'react-redux';
+import { setCartNumber } from '../_Redux/cartNumberslice';
 
 
 
@@ -69,11 +71,12 @@ const schema = z.object({
 
 })
 export default function CheckoutForm({datacart}: CartResponse | null ) {
-    console.log("kkk",datacart);
+    // console.log("kkk",datacart);
 
+    const dispatch = useDispatch()
     const orderItems = datacart?.data?.products
-    const {updateCartNumber}=useCartContext()
-    const router = useRouter()
+    // const {updateCartNumber}=useCartContext()
+     const router = useRouter()
     const [selectedAddress, setSelectedAddress] = useState<number | null>(1);
     const [useNewAddress, setUseNewAddress] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<"cod" | "online">("cod");
@@ -109,27 +112,34 @@ async function cachOrder(data:Address){
    const res=  await handelCachOrder(shippingAddress, datacart?.cartId as string)
 
    toast.success(res.message , { position: "top-center" })
-   console.log("handelCachOjjjjjjjrder ",res); 
+//    console.log("handelCachOjjjjjjjrder ",res); 
 
    await deleteItemActionAll()
-   updateCartNumber(0)
+//    updateCartNumber(0)
+   dispatch(setCartNumber(0));
    reset()
    router.push("/cart")
  
 }
 
- async function onlineOrder(data:Address ){
-  
-     const shippingAddress:shippingAddress = {
-        shippingAddress: data
-    }
-   const url=  await handelOnlineOrder(shippingAddress, datacart?.cartId as string)
+async function onlineOrder(data: Address) {
+  const shippingAddress: shippingAddress = {
+    shippingAddress: data,
+  };
 
-   if (url) {
+  try {
+    const url = await handelOnlineOrder(
+      shippingAddress,
+      datacart?.cartId as string
+    );
+
+     localStorage.setItem("paymentSuccess", "true");
+
+    if (url) {
       window.open(url, "_self");
-     
-     
-    
+    }
+  } catch (error) {
+    console.error("Payment Error:", error);
   }
 }
 
@@ -433,7 +443,7 @@ async function cachOrder(data:Address){
                             {/* Items */}
                             <div className="space-y-3 mb-5">
                                 {orderItems.map((item) => (
-                                    <div key={item.id} className="flex items-center gap-3">
+                                    <div key={item._id} className="flex items-center gap-3">
                                         <img src={item.product.imageCover} alt={item.product.title} className="w-10 h-10 object-cover" />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-xs font-medium text-gray-800 leading-tight line-clamp-2">{item.product.title}</p>

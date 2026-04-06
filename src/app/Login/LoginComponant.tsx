@@ -1,4 +1,6 @@
 "use client"
+import { useDispatch } from "react-redux";
+import { setCartNumber, setWishNumber } from "@/app/_Redux/cartNumberslice";
 import FreshButton from '@/components/shard/AppButton/freshbutton'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
@@ -11,7 +13,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { handeleGetCartData, handeleGetWishlistData } from './Login.services'
-import { useCartContext } from '../_context/CartContextProvider'
+// import { useCartContext } from '../_context/CartContextProvider'
 
 const schema = z.object({
     email: z.string("email is required").email("invalid email").regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "invalid email"),
@@ -20,8 +22,8 @@ const schema = z.object({
 })
 
 export default function LoginComponant() {
-    const {updateCartNumber,updateWishNumber}=useCartContext()
-
+    // const {updateCartNumber,updateWishNumber}=useCartContext()
+const dispatch = useDispatch();
     const router = useRouter()
     
     const { control, handleSubmit, reset } = useForm(
@@ -53,9 +55,12 @@ export default function LoginComponant() {
                 icon: "😎"
             })
         const req=   await handeleGetCartData()
-        updateCartNumber(req?.numOfCartItems||0)
+        // updateCartNumber(req?.numOfCartItems||0)
+        dispatch(setCartNumber(req?.numOfCartItems || 0));
+
         const req2=   await handeleGetWishlistData()
-        updateWishNumber(req2?.count||0)
+        // updateWishNumber(req2?.count||0)
+        dispatch(setWishNumber(req2?.count || 0));
             reset()
             router.push("/")
 
@@ -85,7 +90,7 @@ export default function LoginComponant() {
 
       {/* Facebook */}
       <button
-        onClick={() => signIn("facebook")}
+        onClick={() => signIn("facebook" ,{redirectTo:"/"})}
         className="flex items-center justify-center gap-2 p-5 bg-blue-400 text-white rounded-lg py-2 hover:bg-blue-700"
       >
          Continue with Facebook

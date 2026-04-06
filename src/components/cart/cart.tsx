@@ -1,12 +1,14 @@
 "use client";
 
-import { useCartContext } from "@/app/_context/CartContextProvider";
+import { setCartNumber } from "@/app/_Redux/cartNumberslice";
+// import { useCartContext } from "@/app/_context/CartContextProvider";
 import { deleteItemAction, updateCartCountAction } from "@/app/cart/cart.services";
 import { CartItem } from "@/app/cart/cartInterface";
 import { Trash } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 
@@ -14,7 +16,8 @@ export default function Cart({ pro }: { pro: CartItem }) {
   console.log("gfrtyuioiuytry",pro);
   
   
-  const {updateCartNumber} = useCartContext()
+  // const {updateCartNumber} = useCartContext()
+  const dispatch = useDispatch();
   
 
   const router = useRouter();
@@ -44,7 +47,9 @@ export default function Cart({ pro }: { pro: CartItem }) {
   try {
     const dataOf =await deleteItemAction(pro.product._id);
     
-        updateCartNumber(dataOf);
+        // updateCartNumber(dataOf);
+
+        dispatch(setCartNumber(dataOf));
 
     toast.success("Item removed successfully");
     router.refresh(); 

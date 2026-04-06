@@ -1,34 +1,35 @@
-"use client"
+"use client";
 
-import { toast } from "sonner"
-import { deleteItemActionAll } from "../cart/cart.services"
- import { useCartContext } from "../_context/CartContextProvider"
-import { useEffect } from "react"
- import { FaShoppingCart } from "react-icons/fa"
-import Link from "next/link"
-
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { deleteItemActionAll } from "../cart/cart.services";
+import { useDispatch } from "react-redux";
+import { setCartNumber } from "../_Redux/cartNumberslice";
+import { FaShoppingCart } from "react-icons/fa";
+import Link from "next/link";
+ 
 export default function Page() {
-   const { updateCartNumber } = useCartContext()
-    // window.open("http://localhost:3000/", "_self");
+  const dispatch = useDispatch();
 
-         
-useEffect(() => {
-     async function handleSuccess() {
+  useEffect(() => {
+    async function handleSuccess() {
       toast.success("Payment successful 🎉", {
         position: "top-center",
-      })
+      });
 
-      updateCartNumber(0)
-      await deleteItemActionAll()
+      await deleteItemActionAll();
 
- 
+      dispatch(setCartNumber(0));
+
+
+      localStorage.removeItem("paymentSuccess");
     }
 
-    handleSuccess()
-}, [])
 
-  
-
+    if (localStorage.getItem("paymentSuccess")) {
+      handleSuccess();
+    }
+  }, [dispatch]);
    
   return (
     <>

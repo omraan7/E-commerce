@@ -1,6 +1,7 @@
 "use client";
-
-import { useCartContext } from "@/app/_context/CartContextProvider";
+import { useDispatch} from "react-redux";
+import { setWishNumber } from "@/app/_Redux/cartNumberslice";
+// import { useCartContext } from "@/app/_context/CartContextProvider";
 import { deleteItemAction, updateCartCountAction } from "@/app/cart/cart.services";
 import { CartItem } from "@/app/cart/cartInterface";
 import { deleteItemActionWishlist } from "@/app/wishlist/cart.services";
@@ -14,9 +15,9 @@ import { toast } from "sonner";
 
 export default function CartWishlist({ pro }: { pro: WishlistItem }) {
   console.log(pro);
+  const dispatch = useDispatch();
   
-  
-  const {updateWishNumber} = useCartContext()
+  // const {updateWishNumber} = useCartContext()
   
 
   const router = useRouter();
@@ -46,7 +47,9 @@ export default function CartWishlist({ pro }: { pro: WishlistItem }) {
   try {
     const dataOf =await deleteItemActionWishlist(pro._id);
     
-    updateWishNumber(dataOf.data.length);
+    // updateWishNumber(dataOf.data.length);
+
+        dispatch(setWishNumber(dataOf.data.length));
 
     toast.success("Item removed successfully");
     router.refresh(); 

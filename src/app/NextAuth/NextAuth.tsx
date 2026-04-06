@@ -1,6 +1,7 @@
 import Credentials from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import { NextAuthOptions } from "next-auth";
 import { sendRegister } from "../Register/register.action";
 import { sendLogiin } from "../Login/LoginAction";
@@ -60,8 +61,17 @@ export const nextConfig: NextAuthOptions = {
 
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
-            
+
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+        }),
+        FacebookProvider({
+            clientId: process.env.FACEBOOK_CLIENT_ID!,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+            authorization: {
+                params: {
+                    scope: "email,public_profile"
+                }
+            }
         })
     ],
 
@@ -69,66 +79,67 @@ export const nextConfig: NextAuthOptions = {
 
 
 
-   callbacks: {
+    callbacks: {
 
 
 
 
-   async jwt({ token, user, account }) {
+        async jwt({ token, user, account }) {
 
-  
-    if (user) {
-        token.accessToken = user.tokenCredentials
-        token.id = user.id
-    }
 
-    if (account?.provider === "google") {
-    const userData = {
-        name: user.name,
-        email: user.email,
-        password: "Pa$$w0rd!",
-        rePassword: "Pa$$w0rd!",
-        phone: "01011010111",
-    }
+            if (user) {
+                token.accessToken = user.tokenCredentials
+                token.id = user.id
+            }
 
-    const userLogin = {
-        email: user.email,
-        password: "Pa$$w0rd!",
-    }
+            if (account?.provider === "google" || account?.provider === "facebook") {
+                const userData = {
+                    name: user.name,
+                    email: user.email,
+                    password: "Pa$$w0rd!",
+                    rePassword: "Pa$$w0rd!",
+                    phone: "01011010111",
+                }
 
-    try {
-        await sendRegister(userData)
-    } catch {
-    }
+                const userLogin = {
+                    email: user.email,
+                    password: "Pa$$w0rd!",
+                }
 
-    try {
-        const loginRes = await sendLogiin(userLogin)
-        console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
+                try {
+                    await sendRegister(userData)
+                } catch {
+                }
 
-        // تأكد إن الـ token موجود وهو string
-        if (!loginRes?.token || typeof loginRes.token !== "string") {
-            console.error("No token in loginRes:", loginRes)
+                try {
+                    const loginRes = await sendLogiin(userLogin)
+                    console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
+
+                    // تأكد إن الـ token موجود وهو string
+                    if (!loginRes?.token || typeof loginRes.token !== "string") {
+                        console.error("No token in loginRes:", loginRes)
+                        return token
+                    }
+
+                    const decoded = jwtDecode<{ id: string }>(loginRes.token)
+                    token.accessToken = loginRes.token
+                    token.id = decoded.id
+
+                } catch (error) {
+                    console.error("Login error:", error)
+                }
+            }
+
             return token
+        },
+
+        session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.id as string
+            }
+            return session
         }
-
-        const decoded = jwtDecode<{ id: string }>(loginRes.token)
-        token.accessToken = loginRes.token
-        token.id = decoded.id
-
-    } catch (error) {
-        console.error("Login error:", error)
-    }
-}
-
-    return token
-},
-
-session({ session, token }) {
-    if (session.user) {
-        session.user.id = token.id as string
-    }
-    return session}
-},
+    },
 
     jwt: {
         maxAge: 60 * 60 * 24 * 3

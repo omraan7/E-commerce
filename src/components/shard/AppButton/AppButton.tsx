@@ -1,9 +1,11 @@
 "use client"
-import { useCartContext } from '@/app/_context/CartContextProvider'
+import { setCartNumber } from '@/app/_Redux/cartNumberslice'
+// import { useCartContext } from '@/app/_context/CartContextProvider'
 import { deleteItemActionAll } from '@/app/cart/cart.services'
 import { handelAddProduct } from '@/app/cart/cartAction'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 
 interface AppButtonProps {
@@ -16,7 +18,8 @@ interface AppButtonProps {
 
 export default function AppButton({buttton, id, quantity, className, children, ...props }: AppButtonProps & React.ComponentProps<typeof Button>) {
 
-const {updateCartNumber} = useCartContext()
+// const {updateCartNumber} = useCartContext()
+const dispatch = useDispatch();
     
     async function handelAddProductt() {
         const res = await handelAddProduct(id)
@@ -24,7 +27,8 @@ const {updateCartNumber} = useCartContext()
         
         if (res) {
             
-            updateCartNumber(res.numOfCartItems)
+            // updateCartNumber(res.numOfCartItems)
+            dispatch(setCartNumber(res.numOfCartItems));
             toast.success("Product added to cart successfully")
         }
         else {
@@ -38,8 +42,9 @@ const {updateCartNumber} = useCartContext()
        
         if (res) {
         
-            toast.success("Cart cleared successffffffffffffffffffffffffffffffffffffully")
-            updateCartNumber(res.numOfCartItems)
+            toast.success("Cart cleared successfully")
+            // updateCartNumber(res.numOfCartItems)
+            dispatch(setCartNumber(res.numOfCartItems));
            
         }
         else {

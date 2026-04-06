@@ -1,9 +1,11 @@
 "use client"
-import { useCartContext } from '@/app/_context/CartContextProvider'
+import { setWishNumber } from '@/app/_Redux/cartNumberslice'
+// import { useCartContext } from '@/app/_context/CartContextProvider'
 import { deleteItemActionAll } from '@/app/cart/cart.services'
  import { handelAddProductTOWishlist } from '@/app/wishlist/cartAction'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 
 interface AppButtonProps {
@@ -16,7 +18,8 @@ interface AppButtonProps {
 
 export default function AppButtonW({buttton, id, quantity, className, children, ...props }: AppButtonProps & React.ComponentProps<typeof Button>) {
 
-const {updateWishNumber} = useCartContext()
+// const {updateWishNumber} = useCartContext()
+const dispatch = useDispatch();
     
     async function handelAddProductToWishlist() {
         const res = await handelAddProductTOWishlist(id)
@@ -25,7 +28,8 @@ const {updateWishNumber} = useCartContext()
         
         if (res) {
             
-            updateWishNumber(res.data.length)
+            // updateWishNumber(res.data.length)
+            dispatch(setWishNumber(res.data.length));
             toast.success("Product added to Wishlist successfully")
         }
         else {

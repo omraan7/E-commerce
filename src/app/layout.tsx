@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbarr/Navbar";
 import { Toaster } from "sonner";
 import WrapeSession from "@/components/WrapeSession/WrapeSession";
-import CartContextProvider from "./_context/CartContextProvider";
+// import CartContextProvider from "./_context/CartContextProvider";
 import { getCartData } from "./cart/cartAction";
 import { CartResponse } from "./cart/cartInterface";
 import { getwishlistData } from "./wishlist/cartAction";
 import { WishlistResponse } from "./wishlist/cartInterface";
 import Footer from "@/components/footer/Footer";
+import WrapeRedux from "@/components/wrapeRedux/wrapeRedux";
  
 const inter = Exo({ subsets: ['latin'], variable: '--font-Exo' });
 
@@ -28,25 +29,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const req: WishlistResponse | null = await getwishlistData()
-  const res: CartResponse | null = await getCartData()
+  // const req: WishlistResponse | null = await getwishlistData()
+  // const res: CartResponse | null = await getCartData()
 
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
         className={`  antialiased`}
       >
-         <CartContextProvider res={res} req={req}>
+         {/* <CartContextProvider res={res} req={req}> */}
 
-        
+        <WrapeRedux>
           <WrapeSession>
             <Navbar />
             {children}
             <Footer />
             <Toaster />
           </WrapeSession>
+        </WrapeRedux>
 
-        </CartContextProvider>
+        {/* </CartContextProvider> */}
        </body>
     </html>
   );

@@ -17,8 +17,10 @@ import { CiHeart, CiMail, CiUser } from "react-icons/ci"
 import Image from "next/image"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useCartContext } from "@/app/_context/CartContextProvider"
+// import { useCartContext } from "@/app/_context/CartContextProvider"
 import GlobalColorSwitcher from "../GlobalColorSwitcher/GlobalColorSwitcher"
+import { useSelector } from "react-redux"
+import { RootState } from "@/app/_Redux/ReduxStore"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -68,8 +70,11 @@ export default function NavigationMenuDemo() {
     await signOut({ redirect: false })
     router.push("/Login")
   }
-  const { cartNumber } = useCartContext()
-  const { wishNumber } = useCartContext()
+
+const cartNumber = useSelector((state:RootState) => state.cart.cartNumber);
+  const wishNumber = useSelector((state:RootState) => state.cart.wishNumber);  
+  // const { cartNumber } = useCartContext()
+  // const { wishNumber } = useCartContext()
 
 
   return (
@@ -131,7 +136,7 @@ export default function NavigationMenuDemo() {
                   <ul className="grid w-100 gap-2 md:w-125 md:grid-cols-2 lg:w-100 ">
                     {components.map((component) => (
                       <ListItem
-                        className="z-[9999]"
+                        className="z-9999"
                         key={component.title}
                         title={component.title}
                         href={component.href}
@@ -171,6 +176,7 @@ export default function NavigationMenuDemo() {
                     <div className=" relative">
 
                       <Link href="/cart"><FaShoppingCart /></Link>
+                  
                       {isAuthenticated && !!cartNumber && <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{cartNumber}</span>}
                     </div>
                     <FaRegIdCard />
