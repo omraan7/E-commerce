@@ -1,61 +1,18 @@
-
 "use client"
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import z, { set } from 'zod';
+import z from 'zod';
 import { Address, shippingAddress } from './checkinterface';
 import { handelCachOrder, handelOnlineOrder } from './checkaction';
- import { toast } from 'sonner';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-// import { useCartContext } from '../_context/CartContextProvider';
-import { deleteItemActionAll, getCartDataAll } from '../cart/cart.services';
+import { deleteItemActionAll } from '../cart/cart.services';
 import { CartResponse } from '../cart/cartInterface';
 import { useDispatch } from 'react-redux';
 import { setCartNumber } from '../_Redux/cartNumberslice';
-
-
-
-// const orderItems = [
-//     {
-//         id: 1,
-//         name: "Woman Shawl",
-//         qty: 2,
-//         price: 149,
-//         total: 298,
-//         image: "/api/placeholder/48/48",
-//         color: "#8B6F5E",
-//     },
-//     {
-//         id: 2,
-//         name: "Woman Standart Fit Knitted Cardigan",
-//         qty: 1,
-//         price: 499,
-//         total: 499,
-//         image: "/api/placeholder/48/48",
-//         color: "#B0A090",
-//     },
-//     {
-//         id: 3,
-//         name: "Woman Shawl",
-//         qty: 1,
-//         price: 499,
-//         total: 499,
-//         image: "/api/placeholder/48/48",
-//         color: "#C4A882",
-//     },
-//     {
-//         id: 4,
-//         name: "Woman Shawl",
-//         qty: 1,
-//         price: 698,
-//         total: 698,
-//         image: "/api/placeholder/48/48",
-//         color: "#7A8B6F",
-//     },
-// ];
 
 
 const schema = z.object({
@@ -67,88 +24,65 @@ const schema = z.object({
         .regex(/^[A-Za-z\u0600-\u06FF]+(?:\s[A-Za-z\u0600-\u06FF]+)*$/, "invalid city name"),
     phone: z.string("phone is required").min(11, "phone must be at least 11 characters")
         .regex(/^01[0125][0-9]{8}$/, "phone must be egyptian phone number"),
-          postalCode: z.string(),
-
+    postalCode: z.string(),
 })
-export default function CheckoutForm({datacart}: CartResponse | null ) {
-    // console.log("kkk",datacart);
+
+export default function CheckoutForm({ datacart }: { datacart: CartResponse }) {
+    console.log("kkk", datacart);
 
     const dispatch = useDispatch()
-    const orderItems = datacart?.data?.products
-    // const {updateCartNumber}=useCartContext()
-     const router = useRouter()
-    const [selectedAddress, setSelectedAddress] = useState<number | null>(1);
-    const [useNewAddress, setUseNewAddress] = useState(false);
+    const orderItems = datacart?.data?.products || [];
+    const router = useRouter()
     const [paymentMethod, setPaymentMethod] = useState<"cod" | "online">("cod");
-
-
-    const subtotal = orderItems.reduce((sum, item) => sum + item.total, 0);
-    const shipping = 0;
-    const total = subtotal + shipping;
-
-
 
     const { control, handleSubmit, reset } = useForm(
         {
             defaultValues: {
-
                 details: "",
                 phone: "",
                 city: "",
                 postalCode: "12345"
-
             },
-              resolver: zodResolver(schema),
+            resolver: zodResolver(schema),
         }
     )
 
-async function cachOrder(data:Address){
-     
-      
-    
-     const shippingAddress:shippingAddress = {
-        shippingAddress: data
+    async function cachOrder(data: Address) {
+        const shippingAddress: shippingAddress = {
+            shippingAddress: data
+        }
+        const res = await handelCachOrder(shippingAddress, datacart?.cartId as string)
+        toast.success(res.message, { position: "top-center" })
+        await deleteItemActionAll()
+        dispatch(setCartNumber(0));
+        reset()
+        router.push("/cart")
     }
-   const res=  await handelCachOrder(shippingAddress, datacart?.cartId as string)
 
-   toast.success(res.message , { position: "top-center" })
-//    console.log("handelCachOjjjjjjjrder ",res); 
+    async function onlineOrder(data: Address) {
+        const shippingAddress: shippingAddress = {
+            shippingAddress: data,
+        };
 
-   await deleteItemActionAll()
-//    updateCartNumber(0)
-   dispatch(setCartNumber(0));
-   reset()
-   router.push("/cart")
- 
-}
+        try {
+            const url = await handelOnlineOrder(
+                shippingAddress,
+                datacart?.cartId as string
+            );
 
-async function onlineOrder(data: Address) {
-  const shippingAddress: shippingAddress = {
-    shippingAddress: data,
-  };
+            localStorage.setItem("paymentSuccess", "true");
 
-  try {
-    const url = await handelOnlineOrder(
-      shippingAddress,
-      datacart?.cartId as string
-    );
-
-     localStorage.setItem("paymentSuccess", "true");
-
-    if (url) {
-      window.open(url, "_self");
+            if (url) {
+                window.open(url, "_self");
+            }
+        } catch (error) {
+            console.error("Payment Error:", error);
+        }
     }
-  } catch (error) {
-    console.error("Payment Error:", error);
-  }
-}
 
 
     return (
         <>
-
-
-
             <div className="max-w-6xl mx-auto px-4 pb-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Column */}
                 <div className="lg:col-span-2 space-y-5">
@@ -166,74 +100,6 @@ async function onlineOrder(data: Address) {
                         </div>
 
                         <div className="p-5">
-                            {/* Saved Addresses */}
-                            <div className="mb-5">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <div className="w-1 h-4 bg-main-color rounded-full" />
-                                    <h3 className="font-semibold text-gray-800 text-sm">Saved Addresses</h3>
-                                </div>
-                                <p className="text-xs text-gray-500 mb-3 ml-3">Select a saved address or enter a new one below</p>
-
-                                {/* {savedAddresses.map((addr) => (
-                  <div
-                    key={addr.id}
-                    onClick={() => { setSelectedAddress(addr.id); setUseNewAddress(false); }}
-                    className={`border rounded-lg p-3.5 cursor-pointer transition-all flex items-start gap-3 mb-2 ${
-                      selectedAddress === addr.id && !useNewAddress
-                        ? "border-main-bg-main-color bg-main-color"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <div className={`w-4 h-4 rounded-full border-2 mt-0.5 flex-shrink-0 flex items-center justify-center ${
-                      selectedAddress === addr.id && !useNewAddress ? "border-main-bg-main-color" : "border-gray-300"
-                    }`}>
-                      {selectedAddress === addr.id && !useNewAddress && (
-                        <div className="w-2 h-2 bg-main-color rounded-full" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span className="text-sm font-medium text-gray-800">{addr.city}</span>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-0.5">{addr.district}</p>
-                      <div className="flex items-center gap-3 mt-1.5">
-                        <span className="text-xs text-gray-500 flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                          </svg>
-                          {addr.phone}
-                        </span>
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{addr.tag}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))} */}
-
-                                {/* Use a different address */}
-                                {/* <div
-                  onClick={() => { setUseNewAddress(true); setSelectedAddress(null); }}
-                  className={`border-2 border-dashed rounded-lg p-3.5 cursor-pointer transition-all flex items-center gap-2 ${
-                    useNewAddress ? "border-main-bg-main-color bg-main-color" : "border-gray-300 hover:border-main-bg-main-color"
-                  }`}
-                >
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    useNewAddress ? "bg-main-color" : "bg-gray-200"
-                  }`}>
-                    <svg className={`w-3.5 h-3.5 ${useNewAddress ? "text-white" : "text-gray-500"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-700">Use a different address</p>
-                    <p className="text-xs text-gray-500">Enter a new shipping address manually</p>
-                  </div>
-                </div> */}
-                            </div>
-
                             {/* Delivery Info Banner */}
                             <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 flex items-start gap-2 mb-5">
                                 <svg className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -247,19 +113,14 @@ async function onlineOrder(data: Address) {
 
                             {/* Form Fields */}
                             <form className="space-y-4">
-
-
                                 <Controller
                                     name="city"
                                     control={control}
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
                                             <FieldLabel htmlFor={field.name}>city</FieldLabel>
-
                                             <Input
-
                                                 {...field}
-
                                                 aria-invalid={fieldState.invalid}
                                                 placeholder=" e.g. Cairo, Alexandria, Giza"
                                                 autoComplete="off"
@@ -267,13 +128,10 @@ async function onlineOrder(data: Address) {
                                                 type='text'
                                                 required={true}
                                             />
-
                                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                         </Field>
                                     )}
                                 />
-
-
 
                                 <Controller
                                     name="details"
@@ -281,24 +139,18 @@ async function onlineOrder(data: Address) {
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
                                             <FieldLabel htmlFor={field.name}>Street Address</FieldLabel>
-
                                             <textarea
-
                                                 {...field}
-
                                                 aria-invalid={fieldState.invalid}
                                                 placeholder=" Street name, building number, floor, apartment..."
                                                 autoComplete="off"
                                                 className="w-full pl-10 pr-4 py-2.5 border border-main-color rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-main-bg-main-color focus:ring-1 focus:ring-main-bg-main-color transition resize-none"
-
                                                 required={true}
                                             />
-
                                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                         </Field>
                                     )}
                                 />
-
 
                                 <Controller
                                     name="phone"
@@ -306,11 +158,8 @@ async function onlineOrder(data: Address) {
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
                                             <FieldLabel htmlFor={field.name}>Phone Number</FieldLabel>
-
                                             <Input
-
                                                 {...field}
-
                                                 aria-invalid={fieldState.invalid}
                                                 placeholder="01xxxxxxxxx"
                                                 autoComplete="off"
@@ -318,7 +167,6 @@ async function onlineOrder(data: Address) {
                                                 type='tel'
                                                 required={true}
                                             />
-
                                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                         </Field>
                                     )}
@@ -335,7 +183,7 @@ async function onlineOrder(data: Address) {
                             </svg>
                             <div>
                                 <h2 className="text-white font-semibold text-sm">Payment Method</h2>
-                                <p className="text-main-bg-main-color text-xs">Choose how you'd like to pay</p>
+                                <p className="text-main-bg-main-color text-xs">Choose how you would like to pay</p>
                             </div>
                         </div>
 
@@ -392,7 +240,6 @@ async function onlineOrder(data: Address) {
                                             <p className="text-sm font-semibold text-gray-800">Pay Online</p>
                                             <p className="text-xs text-gray-500">Secure payment with Credit/Debit Card via Stripe</p>
                                             <div className="flex items-center gap-1 mt-1.5">
-                                                {/* Card icons */}
                                                 <div className="w-8 h-5 bg-blue-600 rounded text-white text-[8px] flex items-center justify-center font-bold">VISA</div>
                                                 <div className="w-8 h-5 bg-red-500 rounded text-white text-[8px] flex items-center justify-center font-bold">MC</div>
                                                 <div className="w-8 h-5 bg-blue-400 rounded text-white text-[8px] flex items-center justify-center font-bold">AMEX</div>
@@ -447,9 +294,9 @@ async function onlineOrder(data: Address) {
                                         <img src={item.product.imageCover} alt={item.product.title} className="w-10 h-10 object-cover" />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-xs font-medium text-gray-800 leading-tight line-clamp-2">{item.product.title}</p>
-                                            <p className="text-xs text-gray-400">{item.qty} × {item.price} EGP</p>
+                                            <p className="text-xs text-gray-400">{item.count} × {item.price} EGP</p>
                                         </div>
-                                        <span className="text-sm font-semibold text-gray-800 flex-shrink-0">{item.product.total}</span>
+                                        <span className="text-sm font-semibold text-gray-800 flex-shrink-0">{item.price * item.count}</span>
                                     </div>
                                 ))}
                             </div>
@@ -461,7 +308,7 @@ async function onlineOrder(data: Address) {
                             <div className="space-y-2 mb-4">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-500">Subtotal</span>
-                                    <span className="text-gray-800 font-medium">{datacart.data.totalCartPrice} EGP</span>
+                                    <span className="text-gray-800 font-medium">{datacart?.data?.totalCartPrice || 0} EGP</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-500 flex items-center gap-1">
@@ -470,7 +317,7 @@ async function onlineOrder(data: Address) {
                                         </svg>
                                         Shipping
                                     </span>
-                                    <span className="text-main-bg-main-color font-semibold">{datacart.data.totalCartPrice>500? "free": "50 EGP"}</span>
+                                    <span className="text-main-bg-main-color font-semibold">{datacart.data.totalCartPrice > 500 ? "free" : "50 EGP"}</span>
                                 </div>
                             </div>
 
@@ -480,23 +327,34 @@ async function onlineOrder(data: Address) {
                             {/* Total */}
                             <div className="flex justify-between items-center mb-5">
                                 <span className="text-base font-bold text-gray-800">Total</span>
-                                <span className="text-xl font-bold text-main-bg-main-color">{datacart.data.totalCartPrice>500?datacart.data.totalCartPrice: datacart.data.totalCartPrice+50} EGP</span>
+                                <span className="text-xl font-bold text-main-bg-main-color">
+                                    {datacart.data.totalCartPrice > 500 ? datacart.data.totalCartPrice : datacart.data.totalCartPrice + 50} EGP
+                                </span>
                             </div>
 
-                            {/* Place Order Button */}
-                           <div className="flex gap-3">
-                             <button type="button" onClick={handleSubmit(cachOrder)}  className="w-full bg-main-color hover:bg-main-color active:bg-main-color text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
-                            cached order
-                            </button> <button type="button" onClick={handleSubmit(onlineOrder)}  className="w-full bg-main-color hover:bg-main-color active:bg-main-color text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
-                                Online Order
-                            </button>
-                           </div>
+                            {/* Place Order Buttons */}
+                            <div className="flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={handleSubmit(cachOrder)}
+                                    className="w-full bg-main-color hover:bg-main-color active:bg-main-color text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+                                >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                    Cash Order
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleSubmit(onlineOrder)}
+                                    className="w-full bg-main-color hover:bg-main-color active:bg-main-color text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+                                >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                    Online Order
+                                </button>
+                            </div>
 
                             {/* Trust badges */}
                             <div className="flex justify-around mt-4 pt-4 border-t border-gray-100">
@@ -523,18 +381,6 @@ async function onlineOrder(data: Address) {
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
         </>
     )
 }

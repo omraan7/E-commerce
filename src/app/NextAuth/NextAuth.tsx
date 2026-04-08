@@ -142,7 +142,7 @@ export const nextConfig: NextAuthOptions = {
                 const email = user.email || `${account.providerAccountId}@facebook.com`
 
                 const userData = {
-                    name: user.name,
+                    name: user.name ??"User",
                     email,
                     password: "Pa$$w0rd!",
                     rePassword: "Pa$$w0rd!",
@@ -161,11 +161,9 @@ export const nextConfig: NextAuthOptions = {
                 try {
                     const loginRes = await sendLogiin(userLogin)
 
-                    if (!loginRes?.token) return token
-
-                    const decoded = jwtDecode<{ id: string }>(loginRes.token)
-
-                    token.accessToken = loginRes.token
+                   if (!loginRes || typeof loginRes !== "string") return token
+const decoded = jwtDecode<{ id: string }>(loginRes)
+token.accessToken = loginRes
                     token.id = decoded.id
                 } catch (err) {
                     console.error(err)

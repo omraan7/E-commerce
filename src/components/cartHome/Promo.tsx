@@ -2,7 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 
-function BannerCard({ banner, index }) {
+interface Banner {
+  direction: "left" | "right";
+  gradient: string;
+  badge: {
+    icon: string;
+    text: string;
+  };
+  title: string;
+  description: string;
+  discount: string;
+  code: string;
+  cta: string;
+  ctaStyle: React.CSSProperties;
+}
+
+function BannerCard({ banner, index }: { banner: Banner; index: number }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -106,7 +121,7 @@ function BannerCard({ banner, index }) {
   );
 }
 
-export default function PromoBannersClient({ banners }) {
+export default function PromoBannersClient({ banners }: { banners: Banner[] }) {
   return (
     <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
       {banners.map((banner, i) => (

@@ -1,65 +1,18 @@
- 
-
 import Link from "next/link";
- import CheckoutForm from "./CheckoutForm";
+import CheckoutForm from "./CheckoutForm";
 import { getCartDataAll } from "../cart/cart.services";
 import { CartResponse } from "../cart/cartInterface";
 
-const orderItems = [
-  {
-    id: 1,
-    name: "Woman Shawl",
-    qty: 2,
-    price: 149,
-    total: 298,
-    image: "/api/placeholder/48/48",
-    color: "#8B6F5E",
-  },
-  {
-    id: 2,
-    name: "Woman Standart Fit Knitted Cardigan",
-    qty: 1,
-    price: 499,
-    total: 499,
-    image: "/api/placeholder/48/48",
-    color: "#B0A090",
-  },
-  {
-    id: 3,
-    name: "Woman Shawl",
-    qty: 1,
-    price: 499,
-    total: 499,
-    image: "/api/placeholder/48/48",
-    color: "#C4A882",
-  },
-  {
-    id: 4,
-    name: "Woman Shawl",
-    qty: 1,
-    price: 698,
-    total: 698,
-    image: "/api/placeholder/48/48",
-    color: "#7A8B6F",
-  },
-];
-
-const savedAddresses = [
-  {
-    id: 1,
-    city: "Sadat City",
-    district: "Sadat City",
-    phone: "01097934462",
-    tag: "Sadat City",
-  },
-];
-
 export default async function CheckoutPage() {
-   const datacart: CartResponse | null = await getCartDataAll();
+  const datacart: CartResponse | null = await getCartDataAll();
 
-      
-      
-
+  if (!datacart) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500 text-sm">Failed to load cart. Please try again.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -96,7 +49,7 @@ export default async function CheckoutPage() {
       </div>
 
       {/* Main Grid */}
-     <CheckoutForm  datacart={datacart}/>
+      <CheckoutForm datacart={datacart} />
 
       {/* Footer Bar */}
       <div className="bg-white border-t border-gray-100 py-6">

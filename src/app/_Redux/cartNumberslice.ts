@@ -1,8 +1,9 @@
- 
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+
+import { createSlice, PayloadAction, } from "@reduxjs/toolkit";
 import { getCartData } from "@/app/cart/cartAction";
 import { getwishlistData } from "@/app/wishlist/cartAction";
 
+import { createAsyncThunk } from "@reduxjs/toolkit";
 type CartState = {
   cartNumber: number;
   wishNumber: number;
@@ -10,35 +11,55 @@ type CartState = {
   error: string | null;
 };
 
- 
+
 const initialState: CartState = {
   cartNumber: 0,
   wishNumber: 0,
   loading: false,
   error: null,
 };
+type CartWishResponse = {
+  cartNumber: number;
+  wishNumber: number;
+};
 
- 
-export const fetchCartAndWish = createAsyncThunk(
-  "cart/fetchCartAndWish",
-  async () => {
-    try {
-      const cart = await getCartData();
-      const wish = await getwishlistData();
+export const fetchCartAndWish = createAsyncThunk<
+  CartWishResponse,
+  void,
+  { rejectValue: string }
+>("cart/fetchCartAndWish", async (_, { rejectWithValue }) => {
+  try {
+    const cart = await getCartData();
+    const wish = await getwishlistData();
 
-
-      return {
-        cartNumber: cart?.numOfCartItems || 0,
-        wishNumber: wish?.count || 0,
-      };
-    } catch (err ) {
-      return err
-      // rejectWithValue(err?.message  || "Failed  ");
-    }
+    return {
+      cartNumber: cart?.numOfCartItems || 0,
+      wishNumber: wish?.count || 0,
+    };
+  } catch (err: any) {
+    return rejectWithValue(err?.message || "Failed");
   }
-);
+});
+// export const fetchCartAndWish = createAsyncThunk(
+//   "cart/fetchCartAndWish",
+//   async () => {
+//     try {
+//       const cart = await getCartData();
+//       const wish = await getwishlistData();
 
- const cartNumberSlice = createSlice({
+
+//       return {
+//         cartNumber: cart?.numOfCartItems || 0,
+//         wishNumber: wish?.count || 0,
+//       };
+//     } catch (err ) {
+//       return err
+//       // rejectWithValue(err?.message  || "Failed  ");
+//     }
+//   }
+// );
+
+const cartNumberSlice = createSlice({
   name: "cartNumber",
   initialState,
   reducers: {
@@ -62,7 +83,8 @@ export const fetchCartAndWish = createAsyncThunk(
       })
       .addCase(fetchCartAndWish.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error =
+          (action.payload as string) || action.error.message || "Something went wrong";
       });
   },
 });
