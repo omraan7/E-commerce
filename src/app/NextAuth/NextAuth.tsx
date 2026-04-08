@@ -69,9 +69,14 @@ export const nextConfig: NextAuthOptions = {
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
             authorization: {
                 params: {
-                    scope: "email,public_profile"
-                }
-            }
+                    scope: "email,public_profile",
+                },
+            },
+            userinfo: {
+                params: {
+                    fields: "id,name,email,picture",
+                },
+            },
         })
     ],
 
@@ -84,7 +89,8 @@ export const nextConfig: NextAuthOptions = {
 
 
 
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, profile }) {
+            console.log("asssss", account);
 
 
             if (user) {
@@ -92,43 +98,83 @@ export const nextConfig: NextAuthOptions = {
                 token.id = user.id
             }
 
-            if (account?.provider === "google" || account?.provider === "facebook") {
+            // if (account?.provider === "google" || account?.provider === "facebook") {
+            //     const email = user.email || `${account.providerAccountId}@facebook.com`
+
+            //     const userData = {
+            //         name: user.name,
+            //         email: email,
+            //         password: "Pa$$w0rd!",
+            //         rePassword: "Pa$$w0rd!",
+            //         phone: "01011010111",
+            //     }
+
+            //     const userLogin = {
+            //         email: user.email,
+            //         password: "Pa$$w0rd!",
+            //     }
+
+            //     try {
+            //         await sendRegister(userData)
+            //     } catch {
+            //     }
+
+            //     try {
+            //         const loginRes = await sendLogiin(userLogin)
+            //         console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
+
+            //         // تأكد إن الـ token موجود وهو string
+            //         if (!loginRes?.token || typeof loginRes.token !== "string") {
+            //             console.error("No token in loginRes:", loginRes)
+            //             return token
+            //         }
+
+            //         const decoded = jwtDecode<{ id: string }>(loginRes.token)
+            //         token.accessToken = loginRes.token
+            //         token.id = decoded.id
+
+            //     } catch (error) {
+            //         console.error("Login error:", error)
+            //     }
+            // }
+
+            if (account && user) {
+                const email = user.email || `${account.providerAccountId}@facebook.com`
+
                 const userData = {
                     name: user.name,
-                    email: user.email,
+                    email,
                     password: "Pa$$w0rd!",
                     rePassword: "Pa$$w0rd!",
                     phone: "01011010111",
                 }
 
                 const userLogin = {
-                    email: user.email,
+                    email,
                     password: "Pa$$w0rd!",
                 }
 
                 try {
                     await sendRegister(userData)
-                } catch {
-                }
+                } catch { }
 
                 try {
                     const loginRes = await sendLogiin(userLogin)
-                    console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
 
-                    // تأكد إن الـ token موجود وهو string
-                    if (!loginRes?.token || typeof loginRes.token !== "string") {
-                        console.error("No token in loginRes:", loginRes)
-                        return token
-                    }
+                    if (!loginRes?.token) return token
 
                     const decoded = jwtDecode<{ id: string }>(loginRes.token)
+
                     token.accessToken = loginRes.token
                     token.id = decoded.id
-
-                } catch (error) {
-                    console.error("Login error:", error)
+                } catch (err) {
+                    console.error(err)
                 }
             }
+            // console.log("ghjklkjh", account);
+            // console.log("user,,,,,", user);
+            // console.log("profile,,,,,", profile);
+
 
             return token
         },

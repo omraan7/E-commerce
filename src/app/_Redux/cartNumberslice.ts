@@ -21,17 +21,19 @@ const initialState: CartState = {
  
 export const fetchCartAndWish = createAsyncThunk(
   "cart/fetchCartAndWish",
-  async (_, { rejectWithValue }) => {
+  async () => {
     try {
       const cart = await getCartData();
       const wish = await getwishlistData();
+
 
       return {
         cartNumber: cart?.numOfCartItems || 0,
         wishNumber: wish?.count || 0,
       };
     } catch (err ) {
-      return rejectWithValue(err?.message  || "Failed  ");
+      return err
+      // rejectWithValue(err?.message  || "Failed  ");
     }
   }
 );
