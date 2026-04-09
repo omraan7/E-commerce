@@ -22,14 +22,11 @@ export default function Page() {
       dispatch(setCartNumber(0));
 
 
-      localStorage.removeItem("paymentSuccess");
-    }
+     }
 
 
-    if (localStorage.getItem("paymentSuccess")) {
-      handleSuccess();
-    }
-  }, [dispatch]);
+       handleSuccess();
+   }, []);
    
   return (
     <>

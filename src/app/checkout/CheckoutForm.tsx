@@ -70,8 +70,7 @@ export default function CheckoutForm({ datacart }: { datacart: CartResponse }) {
                 datacart?.cartId as string
             );
 
-            localStorage.setItem("paymentSuccess", "true");
-
+ 
             if (url) {
                 window.open(url, "_self");
             }
