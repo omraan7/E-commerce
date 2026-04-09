@@ -89,94 +89,133 @@ export const nextConfig: NextAuthOptions = {
 
 
 
-        async jwt({ token, user, account, profile }) {
-            console.log("asssss", account);
+        // async jwt({ token, user, account, profile }) {
+        //     console.log("asssss", account);
 
 
-            if (user) {
-                token.accessToken = user.tokenCredentials
-                token.id = user.id
-            }
+        //     if (user) {
+        //         token.accessToken = user.tokenCredentials
+        //         token.id = user.id
+        //     }
 
-            // if (account?.provider === "google" || account?.provider === "facebook") {
-            //     const email = user.email || `${account.providerAccountId}@facebook.com`
+        //     // if (account?.provider === "google" || account?.provider === "facebook") {
+        //     //     const email = user.email || `${account.providerAccountId}@facebook.com`
 
-            //     const userData = {
-            //         name: user.name,
-            //         email: email,
-            //         password: "Pa$$w0rd!",
-            //         rePassword: "Pa$$w0rd!",
-            //         phone: "01011010111",
-            //     }
+        //     //     const userData = {
+        //     //         name: user.name,
+        //     //         email: email,
+        //     //         password: "Pa$$w0rd!",
+        //     //         rePassword: "Pa$$w0rd!",
+        //     //         phone: "01011010111",
+        //     //     }
 
-            //     const userLogin = {
-            //         email: user.email,
-            //         password: "Pa$$w0rd!",
-            //     }
+        //     //     const userLogin = {
+        //     //         email: user.email,
+        //     //         password: "Pa$$w0rd!",
+        //     //     }
 
-            //     try {
-            //         await sendRegister(userData)
-            //     } catch {
-            //     }
+        //     //     try {
+        //     //         await sendRegister(userData)
+        //     //     } catch {
+        //     //     }
 
-            //     try {
-            //         const loginRes = await sendLogiin(userLogin)
-            //         console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
+        //     //     try {
+        //     //         const loginRes = await sendLogiin(userLogin)
+        //     //         console.log("loginRes:", JSON.stringify(loginRes)) // 👈 اتفرج على الشكل الحقيقي
 
-            //         // تأكد إن الـ token موجود وهو string
-            //         if (!loginRes?.token || typeof loginRes.token !== "string") {
-            //             console.error("No token in loginRes:", loginRes)
-            //             return token
-            //         }
+        //     //         // تأكد إن الـ token موجود وهو string
+        //     //         if (!loginRes?.token || typeof loginRes.token !== "string") {
+        //     //             console.error("No token in loginRes:", loginRes)
+        //     //             return token
+        //     //         }
 
-            //         const decoded = jwtDecode<{ id: string }>(loginRes.token)
-            //         token.accessToken = loginRes.token
-            //         token.id = decoded.id
+        //     //         const decoded = jwtDecode<{ id: string }>(loginRes.token)
+        //     //         token.accessToken = loginRes.token
+        //     //         token.id = decoded.id
 
-            //     } catch (error) {
-            //         console.error("Login error:", error)
-            //     }
-            // }
+        //     //     } catch (error) {
+        //     //         console.error("Login error:", error)
+        //     //     }
+        //     // }
 
-            if (account && user) {
-                const email = user.email || `${account.providerAccountId}@facebook.com`
+        //     if (account && user) {
+        //         const email = user.email || `${account.providerAccountId}@facebook.com`
 
-                const userData = {
-                    name: user.name ?? "User",
-                    email,
-                    password: "Pa$$w0rd!",
-                    rePassword: "Pa$$w0rd!",
-                    phone: "01011010111",
-                }
+        //         const userData = {
+        //             name: user.name ?? "User",
+        //             email,
+        //             password: "Pa$$w0rd!",
+        //             rePassword: "Pa$$w0rd!",
+        //             phone: "01011010111",
+        //         }
 
-                const userLogin = {
-                    email,
-                    password: "Pa$$w0rd!",
-                }
+        //         const userLogin = {
+        //             email,
+        //             password: "Pa$$w0rd!",
+        //         }
 
-                try {
-                    await sendRegister(userData)
-                } catch { }
+        //         try {
+        //             await sendRegister(userData)
+        //         } catch { }
 
-                try {
-                    const loginRes = await sendLogiin(userLogin)
+        //         try {
+        //             const loginRes = await sendLogiin(userLogin)
 
-                    if (!loginRes || typeof loginRes !== "string") return token
-                    const decoded = jwtDecode<{ id: string }>(loginRes)
-                    token.accessToken = loginRes
-                    token.id = decoded.id
-                } catch (err) {
-                    console.error(err)
-                }
-            }
-            // console.log("ghjklkjh", account);
-            // console.log("user,,,,,", user);
-            // console.log("profile,,,,,", profile);
+        //             if (!loginRes || typeof loginRes !== "string") return token
+        //             const decoded = jwtDecode<{ id: string }>(loginRes)
+        //             token.accessToken = loginRes
+        //             token.id = decoded.id
+        //         } catch (err) {
+        //             console.error(err)
+        //         }
+        //     }
+        //     // console.log("ghjklkjh", account);
+        //     // console.log("user,,,,,", user);
+        //     // console.log("profile,,,,,", profile);
 
 
-            return token
-        },
+        //     return token
+        // },
 
+        async jwt({ token, user, account }) {
+    // Credentials - حفظ الـ token مباشرة
+    if (account?.provider === "credentials" && user) {
+        token.accessToken = user.tokenCredentials
+        token.id = user.id
+        return token
+    }
+
+    // Google أو Facebook
+    if ((account?.provider === "google" || account?.provider === "facebook") && user) {
+        const email = user.email || `${account.providerAccountId}@facebook.com`
+
+        const userData = {
+            name: user.name ?? "User",
+            email,
+            password: "Pa$$w0rd!",
+            rePassword: "Pa$$w0rd!",
+            phone: "01011010111",
+        }
+
+        const userLogin = { email, password: "Pa$$w0rd!" }
+
+        try {
+            await sendRegister(userData)
+        } catch { }
+
+        try {
+            const loginRes = await sendLogiin(userLogin)
+            if (!loginRes || typeof loginRes !== "string") return token
+            const decoded = jwtDecode<{ id: string }>(loginRes)
+            token.accessToken = loginRes
+            token.id = decoded.id
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    return token
+},
         session({ session, token }) {
             if (session.user) {
                 session.user.id = token.id as string
