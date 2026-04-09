@@ -10,8 +10,12 @@ export default async function page() {
   const data: WishlistResponse | null = await getwishlistData();
 
 // console.log("data from page wich",data);
+if (!data) {
+    return <EmptyCart />
+  }
 
-  const Wishlist= data!.data;
+
+  const Wishlist= data!.data??[];
 
 
   return (

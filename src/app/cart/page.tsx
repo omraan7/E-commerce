@@ -11,8 +11,12 @@ export default async function page() {
   const data: CartResponse | null = await getCartData();
 
   // console.log("datakkkkkkkk",data);
+  if (!data) {
+    return <EmptyCart />
+  }
 
-  const products = data!.data?.products;
+
+  const products = data!.data?.products??[];
 
 
   return (
