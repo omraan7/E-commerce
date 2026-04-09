@@ -1,9 +1,7 @@
 import { getAllCategories } from "@/app/Categories/Categories.services"
 import { Card, CardHeader, CardTitle } from "../ui/card"
 import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-
+  
 export default async function AllCategories({ className, imdgclass,children }: { className?: string, imdgclass?: string ,children?: React.ReactNode}) {
 
 
