@@ -2,249 +2,234 @@
 import { Input } from "@/components/ui/input"
 import logo from "../../asssets/img/icon.png"
 import * as React from "react"
+import { useState } from "react"
 import Link from "next/link"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { FaGift, FaHeadset, FaPhone, FaRegIdCard, FaShoppingCart, FaShuttleVan, FaSignOutAlt } from "react-icons/fa"
+import { FaGift, FaHeadset, FaPhone, FaShoppingCart, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa"
 import { CiHeart, CiMail, CiUser } from "react-icons/ci"
 import Image from "next/image"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-// import { useCartContext } from "@/app/_context/CartContextProvider"
-import GlobalColorSwitcher from "../GlobalColorSwitcher/GlobalColorSwitcher"
 import { useSelector } from "react-redux"
 import { RootState } from "@/app/_Redux/ReduxStore"
+import GlobalColorSwitcher from "../GlobalColorSwitcher/GlobalColorSwitcher"
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
+// Categories dropdown data — replace with API data if needed
+const categories = [
+  { title: "All Categories", href: "/Categories" },
+  { title: "Electronics", href: "/Categories/electronics" },
+  { title: "Women's Fashion", href: "/Categories/womens-fashion" },
+  { title: "Men's Fashion", href: "/Categories/mens-fashion" },
+  { title: "Beauty & Health", href: "/Categories/beauty-health" },
 ]
 
-export default function NavigationMenuDemo() {
+export default function Navbar() {
   const session = useSession()
-  console.log("session",session);
   const username = session.data?.user?.name
   const isAuthenticated = session.status === "authenticated"
   const router = useRouter()
-  async function HandelLogOut() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [catOpen, setCatOpen] = useState(false)
+
+  const cartNumber = useSelector((state: RootState) => state.cart.cartNumber)
+  const wishNumber = useSelector((state: RootState) => state.cart.wishNumber)
+
+  async function handleLogOut() {
     await signOut({ redirect: false })
     router.push("/Login")
   }
 
-const cartNumber = useSelector((state:RootState) => state.cart.cartNumber);
-  const wishNumber = useSelector((state:RootState) => state.cart.wishNumber);  
-  // const { cartNumber } = useCartContext()
-  // const { wishNumber } = useCartContext()
-
-
   return (
     <>
-      <div className=" hidden container mx-auto text-gray-800 text-xs lg:flex items-center justify-between py-3">
-        <div className=" flex items-center justify-between gap-4.5 ">
-          <span className="flex items-center gap-2 text-xs"> <FaShuttleVan color="#16A34A" />
-            Free Shipping on Orders 500 EGP</span>
-          <span className="flex items-center gap-2 text-xs"> <FaGift color="#16A34A" />
-            New Arrivals Daily</span>
+      {/* ── Top bar ── */}
+      <div className="hidden lg:flex container mx-auto text-gray-600 text-xs items-center justify-between py-2.5 border-b border-gray-100">
+        <div className="flex items-center gap-5">
+          <span className="flex items-center gap-1.5">
+            <FaGift className="text-main-color" />
+            Free Shipping on Orders 500 EGP
+          </span>
+          <span className="flex items-center gap-1.5">
+            <FaGift className="text-main-color" />
+            New Arrivals Daily
+          </span>
         </div>
-        <div className="  flex items-center gap-2 text-xs">
-          <div className=" flex items-center gap-2 text-xs  px-2">
-            <FaPhone /> +1 (800) 123-4567
-
-            <CiMail /> support@freshcart.com
-          </div>
-          <div className=" flex items-center gap-2 text-xs pl-3 border-l border-gray-400  ">
-            <CiUser />{isAuthenticated ? username : "user "}
-
-            {isAuthenticated ? <> <button onClick={HandelLogOut}>Logout</button>   <FaSignOutAlt /> </> : <> <Link href="/Login">Login</Link>  <FaSignOutAlt /> </>}
-          </div>
-
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5"><FaPhone className="text-main-color" /> +1 (800) 123-4567</span>
+          <span className="flex items-center gap-1.5"><CiMail className="text-main-color" /> support@freshcart.com</span>
+          <span className="flex items-center gap-1.5 pl-3 border-l border-gray-300">
+            <CiUser />
+            {isAuthenticated ? username : ""}
+          </span>
+          {isAuthenticated
+            ? <button onClick={handleLogOut} className="flex items-center gap-1 hover:text-main-color transition-colors">Sign Out <FaSignOutAlt /></button>
+            : <>
+              <Link href="/Login" className="hover:text-main-color transition-colors">Sign In</Link>
+              <Link href="/Register" className="flex items-center gap-1 hover:text-main-color transition-colors"><CiUser /> Sign Up</Link>
+            </>
+          }
         </div>
-
       </div>
-      <nav className="container mx-auto py-2      ">
 
+      {/* ── Main navbar ── */}
+      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto flex items-center justify-between py-3 px-4">
 
-        <NavigationMenu className="max-w-none justify-between " viewport={false} >
-          <Link href="/" className="flex   self-start items-center gap-2 text-bold">
-            <Image src={logo} alt="logo" />
-            <span className="text-2xl font-bold">   Frish Cart</span>
-
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <Image src={logo} alt="FreshCart logo" width={36} height={36} />
+            <span className="text-xl font-bold text-gray-800">FreshCart</span>
           </Link>
-          {isAuthenticated ? <>
-            <Input type="search" placeholder="Search..." className=" hidden lg:flex w-1/4" />
-            <NavigationMenuList className="flex gap-5 justify-between">
 
+          {/* Search — desktop */}
+          {isAuthenticated && (
+            <div className="hidden lg:flex relative w-1/3">
+              <Input
+                type="search"
+                placeholder="Search for products, brands and more..."
+                className="pr-10 rounded-full border-gray-300 focus:border-main-color"
+              />
+              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-main-color">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+                </svg>
+              </button>
+            </div>
+          )}
 
-              <NavigationMenuItem className="flex justify-around bg-amber-800 ">
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-1">
+            <Link href="/" className="px-3 py-2 text-sm text-gray-700 hover:text-main-color transition-colors">Home</Link>
+            <Link href="/shop" className="px-3 py-2 text-sm text-gray-700 hover:text-main-color transition-colors">Shop</Link>
 
-              </NavigationMenuItem>
-
-              <NavigationMenuItem className="hidden lg:flex">
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-                  <Link href="/">Home</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-               <NavigationMenuItem className="hidden lg:flex">
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-                  <Link href="/shop">Shop</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem className="hidden lg:flex">
-                <NavigationMenuTrigger><Link href="/Categories">Categories  fgdfgfd</Link></NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-100 gap-2 md:w-125 md:grid-cols-2 lg:w-100 ">
-                    {components.map((component) => (
-                      <ListItem
-                        className="z-9999"
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="hidden lg:flex">
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-                  <Link href="/brand">brand</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-                  <div className="flex gap-2">
-                    <FaHeadset className="hidden lg:block" />
-                    <div className=" hidden lg:flex flex-col">
-                      <span>Support
-                      </span>
-                      <span>
-                        24/7 Help
-                      </span>
-                    </div>
-
-                  </div>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent `}>
-                  <div className="flex gap-4">
-                    <div className=" relative">
-
-                      <Link href="/wishlist"> <CiHeart /></Link>
-                      {isAuthenticated && !!wishNumber && <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{wishNumber}</span>}
-                    </div>
-                    <div className=" relative">
-
-                      <Link href="/cart"><FaShoppingCart /></Link>
-                  
-                      {isAuthenticated && !!cartNumber && <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{cartNumber}</span>}
-                    </div>
-                    <FaRegIdCard />
-                    {isAuthenticated ? <> <button className="bg-main-color p-1.5 rounded-md" onClick={HandelLogOut}>logout</button> </> : <Link className="bg-main-color p-2 rounded-md" href="/Login">loginApp</Link>}
-
-                  </div>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList></> : <NavigationMenuList className="flex gap-5 justify-center">
-            <NavigationMenuItem className="hidden lg:flex">
-              <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-                <Link href="/">Home</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent hover:text-green-600`}>
-              <div className="flex gap-2">
-                <FaHeadset className="hidden lg:block" />
-                <div className=" hidden lg:flex flex-col">
-                  <span>Support
-                  </span>
-                  <span>
-                    24/7 Help
-                  </span>
+            {/* Categories dropdown */}
+            <div className="relative" onMouseEnter={() => setCatOpen(true)} onMouseLeave={() => setCatOpen(false)}>
+              <button className="flex items-center gap-1 px-3 py-2 text-sm text-main-color font-medium hover:text-main-color transition-colors">
+                Categories
+                <svg className={`w-3.5 h-3.5 transition-transform ${catOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {catOpen && (
+                <div className="absolute top-full left-0 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  {categories.map((cat) => (
+                    <Link key={cat.href} href={cat.href} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-main-color transition-colors">
+                      {cat.title}
+                    </Link>
+                  ))}
                 </div>
+              )}
+            </div>
 
-              </div>
-            </NavigationMenuLink>
-
-            <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} hover:bg-transparent `}>
-              <div className="flex gap-4">
-
-                <CiHeart />
-                <div className=" relative">
-                  <FaShoppingCart />
-                  {/* <span className="absolute -top-1 left-3 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">0</span> */}
-                </div>
-                <FaRegIdCard />
-
-              </div>
-            </NavigationMenuLink>
-            <Link className="bg-main-color p-2 rounded-md" href="/Login">login</Link>
-          </NavigationMenuList>}
-
-        </NavigationMenu>
-      </nav>
-
-
-
-    </>
-  )
-}
-
-function ListItem({
-  title,
-  children,
-  href,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link href={href}>
-          <div className="flex flex-col gap-1 text-sm">
-            <div className="leading-none font-medium">{title}</div>
-            <div className="line-clamp-2 text-muted-foreground">{children}</div>
+            <Link href="/brand" className="px-3 py-2 text-sm text-gray-700 hover:text-main-color transition-colors">Brands</Link>
           </div>
-        </Link>
-      </NavigationMenuLink>
-    </li>
+
+          {/* Right icons */}
+          <div className="flex items-center gap-3">
+            {/* Support */}
+            <div className="hidden lg:flex items-center gap-2">
+              <FaHeadset className="text-main-color w-5 h-5" />
+              <div className="flex flex-col leading-tight">
+                <span className="text-xs font-semibold text-gray-700">Support</span>
+                <span className="text-[10px] text-gray-400">24/7 Help</span>
+              </div>
+            </div>
+
+            {/* Wishlist */}
+            <div className="relative">
+              <Link href="/wishlist" className="text-gray-600 hover:text-main-color transition-colors">
+                <CiHeart className="w-6 h-6" />
+              </Link>
+              {isAuthenticated && !!wishNumber && (
+                <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{wishNumber}</span>
+              )}
+            </div>
+
+            {/* Cart */}
+            <div className="relative">
+              <Link href="/cart" className="text-gray-600 hover:text-main-color transition-colors">
+                <FaShoppingCart className="w-5 h-5" />
+              </Link>
+              {isAuthenticated && !!cartNumber && (
+                <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{cartNumber}</span>
+              )}
+            </div>
+
+            {/* Auth button */}
+            {isAuthenticated
+              ? <button onClick={handleLogOut} className="hidden lg:flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
+                  <CiUser className="w-4 h-4" /> {username}
+                </button>
+              : <Link href="/Login" className="flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
+                  <CiUser className="w-4 h-4" /> Sign In
+                </Link>
+            }
+
+            {/* Mobile hamburger */}
+            <button className="lg:hidden text-gray-700" onClick={() => setMobileOpen(!mobileOpen)}>
+              {mobileOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* ── Mobile menu ── */}
+        {mobileOpen && (
+          <div className="lg:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-1">
+            {/* Mobile search */}
+            <div className="relative mb-3">
+              <Input type="search" placeholder="Search products..." className="pr-10 rounded-full" />
+              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-main-color">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+                </svg>
+              </button>
+            </div>
+
+            <Link href="/" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm text-gray-700 border-b border-gray-50">Home</Link>
+            <Link href="/shop" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm text-gray-700 border-b border-gray-50">Shop</Link>
+
+            {/* Mobile categories */}
+            <div>
+              <button onClick={() => setCatOpen(!catOpen)} className="flex items-center justify-between w-full py-2.5 text-sm text-gray-700 border-b border-gray-50">
+                Categories
+                <svg className={`w-3.5 h-3.5 transition-transform ${catOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {catOpen && (
+                <div className="pl-4 space-y-1 py-1">
+                  {categories.map((cat) => (
+                    <Link key={cat.href} href={cat.href} onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600 hover:text-main-color">
+                      {cat.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link href="/brand" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm text-gray-700 border-b border-gray-50">Brands</Link>
+
+            {isAuthenticated && (
+              <>
+                <Link href="/wishlist" onClick={() => setMobileOpen(false)} className="flex items-center justify-between py-2.5 text-sm text-gray-700 border-b border-gray-50">
+                  Wishlist {!!wishNumber && <span className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{wishNumber}</span>}
+                </Link>
+                <Link href="/cart" onClick={() => setMobileOpen(false)} className="flex items-center justify-between py-2.5 text-sm text-gray-700 border-b border-gray-50">
+                  Cart {!!cartNumber && <span className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{cartNumber}</span>}
+                </Link>
+              </>
+            )}
+
+            {isAuthenticated
+              ? <button onClick={() => { handleLogOut(); setMobileOpen(false) }} className="flex items-center gap-2 py-2.5 text-sm text-red-500 w-full">
+                  <FaSignOutAlt /> Sign Out
+                </button>
+              : <div className="flex gap-3 pt-2">
+                  <Link href="/Login" onClick={() => setMobileOpen(false)} className="flex-1 text-center bg-main-color text-white text-sm py-2.5 rounded-full">Sign In</Link>
+                  <Link href="/Register" onClick={() => setMobileOpen(false)} className="flex-1 text-center border border-main-color text-main-color text-sm py-2.5 rounded-full">Sign Up</Link>
+                </div>
+            }
+          </div>
+        )}
+      </nav>
+    </>
   )
 }
