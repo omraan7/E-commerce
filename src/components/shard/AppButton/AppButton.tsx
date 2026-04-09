@@ -32,7 +32,7 @@ const dispatch = useDispatch();
             toast.success("Product added to cart successfully")
         }
         else {
-            toast.error(res.message)
+        toast.error("Failed to add product to cart")
         }
     }
 
@@ -48,7 +48,7 @@ const dispatch = useDispatch();
            
         }
         else {
-            toast.error(res.message)
+        toast.error("Failed to clear cart")
         }
         
     }
