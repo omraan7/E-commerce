@@ -95,7 +95,7 @@ const cartNumber = useSelector((state:RootState) => state.cart.cartNumber);
           <div className=" flex items-center gap-2 text-xs pl-3 border-l border-gray-400  ">
             <CiUser />{isAuthenticated ? username : "user "}
 
-            {isAuthenticated ? <> <button onClick={HandelLogOut}>Logout</button>   <FaSignOutAlt /> </> : "Login"}
+            {isAuthenticated ? <> <button onClick={HandelLogOut}>Logout</button>   <FaSignOutAlt /> </> : <> <Link href="/Login">Login</Link>  <FaSignOutAlt /> </>}
           </div>
 
         </div>
@@ -180,7 +180,7 @@ const cartNumber = useSelector((state:RootState) => state.cart.cartNumber);
                       {isAuthenticated && !!cartNumber && <span className="absolute -top-2 left-3 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">{cartNumber}</span>}
                     </div>
                     <FaRegIdCard />
-                    {isAuthenticated ? <> <button className="bg-main-color p-1.5 rounded-md" onClick={HandelLogOut}>logout</button> </> : <Link className="bg-main-color p-2 rounded-md" href="/Login">login</Link>}
+                    {isAuthenticated ? <> <button className="bg-main-color p-1.5 rounded-md" onClick={HandelLogOut}>logout</button> </> : <Link className="bg-main-color p-2 rounded-md" href="/Login">loginApp</Link>}
 
                   </div>
                 </NavigationMenuLink>
