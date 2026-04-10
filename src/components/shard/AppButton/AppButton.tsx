@@ -29,10 +29,10 @@ const dispatch = useDispatch();
             
             // updateCartNumber(res.numOfCartItems)
             dispatch(setCartNumber(res.numOfCartItems));
-            toast.success("Product added to cart successfully")
+            toast.success("Product added to cart successfully", { position: "top-center" })
         }
         else {
-        toast.error("Failed to add product to cart")
+        toast.error("Failed to add product to cart or Login first", { position: "top-center" })
         }
     }
 
@@ -42,13 +42,13 @@ const dispatch = useDispatch();
        
         if (res) {
         
-            toast.success("Cart cleared successfully")
+            toast.success("Cart cleared successfully" ,{ position: "top-center" })
             // updateCartNumber(res.numOfCartItems)
             dispatch(setCartNumber(res.numOfCartItems));
            
         }
         else {
-        toast.error("Failed to clear cart")
+        toast.error("Failed to clear cart", { position: "top-center" })
         }
         
     }

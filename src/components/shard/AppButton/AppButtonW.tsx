@@ -30,10 +30,10 @@ const dispatch = useDispatch();
             
             // updateWishNumber(res.data.length)
             dispatch(setWishNumber(res.data.length));
-            toast.success("Product added to Wishlist successfully")
+            toast.success("Product added to Wishlist successfully" , { position: "top-center" })
         }
         else {
-            toast.error(res.message)
+            toast.error(res.message||"Failed to add product to cart or Login first" , { position: "top-center" })
         }
     }
 

@@ -59,7 +59,7 @@ export default function Registercomponant() {
         } else {
             toast.error(res, {
                 position: "top-center",
-                icon: "😡😡"
+                icon: "😡"
             })
         }
     }
@@ -79,7 +79,7 @@ export default function Registercomponant() {
                                 aria-invalid={fieldState.invalid}
                                 placeholder="inter your name"
                                 autoComplete="off"
-                                className='focus-visible:ring-main-color'
+                  className="pl-9 pr-9 focus-visible:ring-main-color border-gray-200"
                                 type='text'
                             />
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 interface Banner {
@@ -115,7 +116,7 @@ function BannerCard({ banner, index }: { banner: Banner; index: number }) {
         onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
-        {banner.cta} <span>→</span>
+        {banner.cta==="Shop now" ?<Link href="/shop">{banner.cta}</Link>: <Link href="/Categories">{banner.cta}</Link>}  <span>→</span>
       </button>
     </div>
   );

@@ -57,15 +57,15 @@ export default function Footer() {
   return (
     <footer>
       {/* ── Features Bar ── */}
-      <div className="bg-main-color/50 px-10 py-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="bg-main-color/20 px-10 py-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
         {features.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-main-color/20 rounded-xl flex items-center justify-center shrink-0">
+            <div className=" text-sm md:tex-md w-9 h-9 md:w-11 md:h-11 bg-main-color/5 rounded-xl flex items-center justify-center shrink-0">
               <Icon size={22} className="text-main-color/90" />
             </div>
             <div>
               <p className="text-sm font-bold text-gray-900">{title}</p>
-              <p className="text-xs text-gray-500">{desc}</p>
+              <p className="text-xs text-gray-600">{desc}</p>
             </div>
           </div>
         ))}

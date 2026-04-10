@@ -7,9 +7,9 @@ export default function RatingStar({ ratingsAverage, ratingsQuantity , Review }:
     const emptystar = 5 - fullstars - (halfstar ? 1 : 0)
     return (
         <>
-            {Array.from({ length: fullstars }).map((el, index) => (<IoMdStar className="text-[30px]" fill="yellow" color="yellow" key={index} />))}
-            {halfstar && <IoMdStarHalf className="text-[30px]" fill="yellow" color="yellow" />}
-            {Array.from({ length: emptystar }).map((el, index) => (<CiStar className="text-[30px]" color="yellow" key={index} />))}
+            {Array.from({ length: fullstars }).map((el, index) => (<IoMdStar className="text-[20px] " fill="yellow" color="yellow" key={index} />))}
+            {halfstar && <IoMdStarHalf className="text-[20px] " fill="yellow" color="yellow" />}
+            {Array.from({ length: emptystar }).map((el, index) => (<CiStar className="text-[20px] " color="yellow" key={index} />))}
             <span>{ratingsAverage}</span> ({ratingsQuantity} {Review})
 
 

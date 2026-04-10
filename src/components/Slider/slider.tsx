@@ -173,7 +173,7 @@ export default function AppSlider({
                 >
                     {imgs.map((e, i) => (
                         <SwiperSlide key={i}>
-                            <div className="relative h-[400px] w-full">
+                            <div className="relative h-100  w-full">
                                 <Image fill src={e} alt="" className="object-cover" />
                             </div>
                         </SwiperSlide>
@@ -188,7 +188,7 @@ export default function AppSlider({
                 >
                     {imgs.map((e, i) => (
                         <SwiperSlide key={i}>
-                            <div className="relative h-[100px] w-full cursor-pointer">
+                            <div className="relative h-25 w-full cursor-pointer">
                                 <Image fill src={e} alt="" className="object-cover rounded-md" />
                             </div>
                         </SwiperSlide>
@@ -199,8 +199,7 @@ export default function AppSlider({
     }
 
     // ── hero slider mode ──────────────────────────────────────────────────────
-    // backward compatible: لو بعت imageslist القديمة من غير slides
-    const resolvedSlides: SlideContent[] = slides ?? (imageslist ?? []).map((img) => ({
+     const resolvedSlides: SlideContent[] = slides ?? (imageslist ?? []).map((img) => ({
         image: img,
         title: "Fresh Products Delivered<br/>to your Door",
         subtitle: "Get 20% off your first order",
@@ -209,8 +208,9 @@ export default function AppSlider({
     }))
 
     return (
-        <div ref={wrapperRef} className="relative">
+        <div ref={wrapperRef} className="relative pb-2">
             <Swiper
+            
                 modules={[Navigation, Pagination, A11y, Autoplay]}
                 spaceBetween={spaceBetween}
                 slidesPerView={slidesPerView}
@@ -221,15 +221,15 @@ export default function AppSlider({
                 onSwiper={() => setTimeout(() => setVisible(true), 100)}
             >
                 {resolvedSlides.map((slide, i) => (
-                    <SwiperSlide key={i}>
-                        <div className="relative h-100">
-                            <Image fill src={slide.image} alt={slide.title} className="object-cover" />
+                    <SwiperSlide key={i} >
+                        <div className="relative h-100 w-full ">
+                            <Image fill src={slide.image} alt={slide.title} className="object-cover " />
                         </div>
                     </SwiperSlide>
                 ))}
             </Swiper>
 
-            <SliderOverlay
+            <SliderOverlay  
                 slide={resolvedSlides[activeIndex] ?? resolvedSlides[0]}
                 animKey={animKey}
                 visible={visible}

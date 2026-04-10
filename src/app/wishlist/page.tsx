@@ -20,7 +20,7 @@ if (!data) {
 
   return (
     <>
-      { data!.count >0 ?<div className="container mx-auto mt-5 ">
+      { data!.count >0 ?<div className="container mx-auto mt-5 mb-5 px-5 ">
         <div className=" flex flex-col md:flex-row  gap-5">
           <div className=" md:w-full flex flex-col gap-4">
            <Link href="/"> <span className='text-main-color text-md'>coutinue shopping</span></Link>

@@ -51,15 +51,15 @@ export default function Cart({ pro }: { pro: CartItem }) {
 
         dispatch(setCartNumber(dataOf));
 
-    toast.success("Item removed successfully");
+    toast.success("Item removed successfully", { position: "top-center" });
     router.refresh(); 
 
   } catch (error ) {
-    toast.error("Failed to remove item");
+    toast.error("Failed to remove item",  { position: "top-center" });
   }
 }
   if (pro === undefined || pro === null) {
-    return toast.error("session not found");
+    return toast.error("session not found", { position: "top-center" });
 
   }
   return (
