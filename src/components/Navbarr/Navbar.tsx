@@ -51,7 +51,7 @@ export default function Navbar() {
             <FaGift className="text-main-color" />
             New Arrivals Daily
           </span>
-          
+
         </div>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5"><FaPhone className="text-main-color" /> +1 (800) 123-4567</span>
@@ -75,9 +75,9 @@ export default function Navbar() {
         <div className="container mx-auto flex items-center justify-between py-3 px-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Image src={logo} alt="FreshCart logo" width={36} height={36} />
-            <span className="text-xl font-bold text-gray-800">FreshCart</span>
+          <Link href="/" className="flex items-center gap-1 lg:gap-2 shrink-0">
+            <Image src={logo} alt="FreshCart logo" width={26} height={26} />
+            <span className="text-sm lg:text-2xl font-bold text-gray-800">FreshCart</span>
           </Link>
 
           {/* Search — desktop */}
@@ -122,11 +122,11 @@ export default function Navbar() {
 
             <Link href="/brand" className="px-3 py-2 text-sm text-gray-700 hover:text-main-color transition-colors">Brands</Link>
           </div>
-<div className="  ">
+          <div className="  ">
             <GlobalColorSwitcher />
           </div>
           {/* Right icons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 lg:gap-3">
             {/* Support */}
             <div className="hidden lg:flex items-center gap-2">
               <FaHeadset className="text-main-color w-5 h-5" />
@@ -159,17 +159,17 @@ export default function Navbar() {
 
             {/* Auth button */}
             {isAuthenticated
-              ? <button onClick={handleLogOut} className="hidden lg:flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
+              ? <button onClick={handleLogOut} className="hidden lg:flex items-center gap-1 bg-main-color text-white text-sm px-2 py-2 rounded-full hover:opacity-90 transition-opacity">
                 <CiUser className="w-4 h-4" /> {username}
               </button>
-              : <Link href="/Login" className="flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
-                <CiUser className="w-4 h-4" /> Sign In
+              : <Link href="/Login" className="flex items-center gap-1.5 bg-main-color text-white text-sm px-2 py-2 rounded-full hover:opacity-90 transition-opacity">
+                <CiUser className="w-3.5 h-3.5 text-sm   lg:w-4 lg:h-4 " /> Sign In
               </Link>
             }
 
             {/* Mobile hamburger */}
             <button className="lg:hidden text-gray-700" onClick={() => setMobileOpen(!mobileOpen)}>
-              {mobileOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
+              {mobileOpen ? <FaTimes className="w-4 h-4" /> : <FaBars className="w-4 h-4" />}
             </button>
           </div>
         </div>

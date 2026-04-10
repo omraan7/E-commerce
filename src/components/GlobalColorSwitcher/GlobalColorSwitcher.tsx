@@ -111,13 +111,13 @@ export default function GlobalColorSwitcher() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(prev => !prev)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-200
+        className="flex items-center gap-1 px-1 py-1 rounded-lg border border-gray-200
                    hover:border-gray-300 hover:bg-gray-50 transition-all duration-150 group"
       >
-        <Palette size={13} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
-        <span className={`w-4 h-4 rounded-full ${activeTheme.tw} ring-1 ring-offset-1 ring-gray-300`} />
+        <Palette size={10} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+        <span className={`w-3 h-3 rounded-full ${activeTheme.tw} ring-1 ring-offset-1 ring-gray-300`} />
         <ChevronDown
-          size={12}
+          size={10}
           className={`text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>

@@ -51,7 +51,7 @@ export default function Registercomponant() {
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold mb-1">
-          <span className="text-green-600">Fresh</span>
+          <span className="text-main-color">Fresh</span>
           <span className="text-gray-900">Cart</span>
         </h1>
         <h2 className="text-xl font-bold text-gray-900">Create an Account</h2>
@@ -79,7 +79,7 @@ export default function Registercomponant() {
                   placeholder="Enter your name"
                   autoComplete="off"
                   type="text"
-                  className="pl-9 focus-visible:ring-green-500 border-gray-200"
+                  className="pl-9 focus-visible:ring-main-color border-gray-200"
                 />
               </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -105,7 +105,7 @@ export default function Registercomponant() {
                   placeholder="Enter your email"
                   autoComplete="off"
                   type="email"
-                  className="pl-9 focus-visible:ring-green-500 border-gray-200"
+                  className="pl-9 focus-visible:ring-main-color border-gray-200"
                 />
               </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -131,7 +131,7 @@ export default function Registercomponant() {
                   placeholder="Enter your password"
                   autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
-                  className="pl-9 pr-9 focus-visible:ring-green-500 border-gray-200"
+                  className="pl-9 pr-9 focus-visible:ring-main-color border-gray-200"
                 />
                 <button
                   type="button"
@@ -164,7 +164,7 @@ export default function Registercomponant() {
                   placeholder="Re-enter your password"
                   autoComplete="off"
                   type={showRePassword ? "text" : "password"}
-                  className="pl-9 pr-9 focus-visible:ring-green-500 border-gray-200"
+                  className="pl-9 pr-9 focus-visible:ring-main-color border-gray-200"
                 />
                 <button
                   type="button"
@@ -197,7 +197,7 @@ export default function Registercomponant() {
                   placeholder="Enter your phone number"
                   autoComplete="off"
                   type="tel"
-                  className="pl-9 focus-visible:ring-green-500 border-gray-200"
+                  className="pl-9 focus-visible:ring-main-color border-gray-200"
                 />
               </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -211,8 +211,8 @@ export default function Registercomponant() {
           disabled={isSubmitting}
           className={`w-full py-3 rounded-lg font-semibold text-base transition-colors mt-1 flex items-center justify-center gap-2
             ${isSubmitting
-              ? "bg-green-400 cursor-not-allowed opacity-70"
-              : "bg-main-color hover:bg-green-100 hover:text-main-color cursor-pointer"
+              ? "bg-min-color cursor-not-allowed opacity-70"
+              : "bg-main-color hover:bg-min-color/50   hover:text-main-color cursor-pointer"
             } text-white`}
         >
           {isSubmitting ? (
@@ -229,7 +229,7 @@ export default function Registercomponant() {
       {/* Login link */}
       <p className="text-center text-sm text-gray-500 mt-5">
         Already have an account?{" "}
-        <Link href="/Login" className="text-green-600 font-semibold hover:underline">
+        <Link href="/Login" className="text-main-color font-semibold hover:underline">
           Sign in
         </Link>
       </p>

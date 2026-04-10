@@ -11,7 +11,7 @@ export default function page() {
       <div className="w-full max-w-8xl bg-white rounded-2xl shadow-lg overflow-hidden flex">
 
         {/* ===== LEFT SIDE ===== */}
-        <div className=" md:flex flex-col items-center justify-center w-1/2 p-10 bg-white">
+        <div className="hidden md:flex flex-col items-center justify-center w-1/2 p-10 bg-white">
 
           {/* Illustration */}
           <div
