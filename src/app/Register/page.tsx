@@ -7,18 +7,18 @@ import image2 from "../../asssets/img/login.png"
 
 export default function page() {
   return (<>
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg overflow-hidden flex">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 my-5">
+      <div className="w-full max-w-8xl bg-white rounded-2xl shadow-lg overflow-hidden flex">
 
         {/* ===== LEFT SIDE ===== */}
-        <div className="hidden md:flex flex-col items-center justify-center w-1/2 p-10 bg-white">
+        <div className=" md:flex flex-col items-center justify-center w-1/2 p-10 bg-white">
 
           {/* Illustration */}
           <div
             className="w-full rounded-2xl overflow-hidden mb-8 flex items-center justify-center"
             style={{ background: "#fdf3ee", minHeight: 280 }}
           >
-            <Image src={image2} alt="FreshCart logo" width={500} height={500} />
+            <Image src={image2} alt="FreshCart logo" width={900} height={500} />
 
 
           </div>

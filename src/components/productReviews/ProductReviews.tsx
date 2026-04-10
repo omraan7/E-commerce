@@ -127,12 +127,12 @@ export default function ProductTabs({ product }: { product: ProductDetails }) {
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`flex items-center gap-2 px-4 py-4 text-sm font-medium border-b-2 -mb-px transition-all duration-200 whitespace-nowrap cursor-pointer ${
                 isActive
-                  ? "text-[#2d7a4f] border-[#2d7a4f] font-semibold"
-                  : "text-gray-400 border-transparent hover:text-[#2d7a4f]"
+                  ? "text-main-color border-main-color font-semibold"
+                  : "text-gray-400 border-transparent hover:text-main-color hover:border-main-color"
               }`}
             >
               <Icon size={15}
-                fill={isActive && tab === "Reviews" ? "#2d7a4f" : "none"}
+                fill={isActive && tab === "Reviews" ? "#0000" : "none"}
                 stroke="currentColor"
               />
               {tab === "Reviews" ? `Reviews (${product.ratingsQuantity})` : tab}
@@ -165,8 +165,8 @@ export default function ProductTabs({ product }: { product: ProductDetails }) {
               <ul>
                 {features.map((f) => (
                   <li key={f} className="flex items-center gap-3 py-2.5 border-b border-gray-200 last:border-0 text-sm text-gray-700">
-                    <div className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check size={11} strokeWidth={3} className="text-[#2d7a4f]" />
+                    <div className="w-5 h-5 bg-min-color/50 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Check size={11} strokeWidth={3} className="text-[#000000]" />
                     </div>
                     {f}
                   </li>
@@ -212,7 +212,7 @@ export default function ProductTabs({ product }: { product: ProductDetails }) {
                 <div key={r._id} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">{r.user?.name ?? "Customer"}llllllll</p>
+                      <p className="text-sm font-semibold text-gray-900">{r.user?.name ?? "Customer"}</p>
                       <StarRating rating={r.rating} size={13} />
                     </div>
                     <span className="text-xs text-gray-400">
@@ -227,7 +227,7 @@ export default function ProductTabs({ product }: { product: ProductDetails }) {
             <div className="flex flex-col items-center gap-3 py-8">
               <Star size={40} fill="#d1d5db" stroke="#d1d5db" />
               <p className="text-sm text-gray-400">Customer reviews will be displayed here.</p>
-              <button className="text-sm font-semibold text-[#2d7a4f] hover:underline flex items-center gap-1.5">
+              <button className="text-sm font-semibold text-main-color hover:underline flex items-center gap-1.5">
                 <PenLine size={14} /> Write a Review
               </button>
             </div>
@@ -241,9 +241,9 @@ export default function ProductTabs({ product }: { product: ProductDetails }) {
           {/* Two cards side by side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {SHIPPING_SECTIONS.map(({ title, Icon, items }) => (
-              <div key={title} className="bg-green-50 border border-green-100 rounded-xl p-5">
+              <div key={title} className="bg-min-color/15 border border-min-color rounded-xl p-5">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-[#2d7a4f] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-main-color rounded-full flex items-center justify-center flex-shrink-0">
                     <Icon size={18} className="text-white" />
                   </div>
                   <p className="text-sm font-bold text-gray-900">{title}</p>

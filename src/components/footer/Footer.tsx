@@ -5,42 +5,37 @@ import {
   CreditCard,
 } from "lucide-react";
 
-const features = [
-  { icon: Truck,        title: "Free Shipping",   desc: "On orders over 500 EGP" },
-  { icon: RotateCcw,    title: "Easy Returns",    desc: "14-day return policy" },
-  { icon: ShieldCheck,  title: "Secure Payment",  desc: "100% secure checkout" },
-  { icon: Headphones,   title: "24/7 Support",    desc: "Contact us anytime" },
-];
 import Link from "next/link";
+const features = [
+  { icon: Truck, title: "Free Shipping", desc: "On orders over 500 EGP" },
+  { icon: RotateCcw, title: "Easy Returns", desc: "14-day return policy" },
+  { icon: ShieldCheck, title: "Secure Payment", desc: "100% secure checkout" },
+  { icon: Headphones, title: "24/7 Support", desc: "Contact us anytime" },
+];
 
 const footerLinks = {
   Shop: [
-    { label: "All Products",    href: "/products" },
-    { label: "Categories",      href: "/Categories" },
-    { label: "Brands",          href: "/brand" },
-    { label: "Electronics",     href: "/electronics" },
-    { label: "Men's Fashion",   href: "/mens-fashion" },
-    { label: "Women's Fashion", href: "/womens-fashion" },
+    { label: "All Products", href: "/shop" },
+    { label: "Categories", href: "/Categories" },
+    { label: "Brands", href: "/brand" },
+    { label: "Electronics", href: "/shop" },
+    { label: "Men's Fashion", href: "/shop " },
+    { label: "Women's Fashion", href: "/shop" },
   ],
   Account: [
-    { label: "My Account",      href: "/account" },
-    { label: "Order History",   href: "/account/orders" },
-    { label: "Wishlist",        href: "/wishlist" },
-    { label: "Shopping Cart",   href: "/cart" },
-    { label: "Sign In",         href: "/auth/signin" },
-    { label: "Create Account",  href: "/auth/signup" },
+    { label: "My Account", href: "/shop" },
+    { label: "Order History", href: "/shop" },
+    { label: "Wishlist", href: "/wishlist" },
+    { label: "Shopping Cart", href: "/cart" },
+    { label: "Sign In", href: "/Login" },
+    { label: "Create Account", href: "/Register" },
   ],
   Support: [
-    { label: "Contact Us",       href: "/contact" },
-    { label: "Help Center",      href: "/help" },
-    { label: "Shipping Info",    href: "/shipping" },
-    { label: "Returns & Refunds",href: "/returns" },
-    { label: "Track Order",      href: "/track" },
-  ],
-  Legal: [
-    { label: "Privacy Policy",   href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Cookie Policy",    href: "/cookies" },
+    { label: "Contact Us", href: "/shop" },
+    { label: "Help Center", href: "/shop" },
+    { label: "Shipping Info", href: "/shop" },
+    { label: "Returns & Refunds", href: "/shop" },
+    { label: "Track Order", href: "/shop" },
   ],
 };
 
@@ -110,23 +105,23 @@ export default function Footer() {
           </div>
 
           {/* Nav Cols */}
-       {Object.entries(footerLinks).map(([title, links]) => (
-  <div key={title}>
-    <h3 className="text-white font-bold text-sm mb-4">{title}</h3>
-    <ul className="space-y-2.5">
-      {links.map((link) => (
-        <li key={link.href}>
-          <Link
-            href={link.href}
-            className="text-gray-400 text-sm hover:text-main-color transition-colors"
-          >
-            {link.label}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </div>
-))}
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <div key={title}>
+              <h3 className="text-white font-bold text-sm mb-4">{title}</h3>
+              <ul className="space-y-2.5">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-gray-400 text-sm hover:text-main-color transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* ── Bottom Bar ── */}

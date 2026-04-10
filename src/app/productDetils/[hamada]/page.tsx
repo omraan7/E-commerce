@@ -42,7 +42,7 @@ export default async function page({ params }: { params: { hamada: string } }) {
 
           {/* Breadcrumb tags */}
           <div className="flex gap-2 mb-4">
-            <span className="text-sm text-green-600 bg-green-50 border border-green-200 py-1 px-3 rounded-full font-medium">
+            <span className="text-sm text-main-color bg-min-color border border-main-color py-1 px-3 rounded-full font-medium">
               {category.name}
             </span>
             <span className="text-sm text-gray-600 bg-gray-100 border border-gray-200 py-1 px-3 rounded-full font-medium">
@@ -80,8 +80,8 @@ export default async function page({ params }: { params: { hamada: string } }) {
           {/* Stock status */}
           <div className="mb-5">
             {quantity > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-green-700 bg-green-50 border border-green-200 py-1.5 px-3 rounded-full text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+              <span className="inline-flex items-center gap-1.5 text-main-color bg-min-color border border-main-color py-1.5 px-3 rounded-full text-sm font-medium">
+                <span className="w-2 h-2 rounded-full bg-main-color inline-block" />
                 In Stock
               </span>
             ) : (
@@ -111,7 +111,7 @@ export default async function page({ params }: { params: { hamada: string } }) {
           {/* CTA Buttons */}
           <div className="flex gap-3 mb-3 ">
             <AppButton
-              className="flex-1 bg-green-600 h-14 hover:bg-green-700 text-white py-4 text-base font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors"
+              className="flex-1 bg-main-color/80 h-14 hover:bg-main-color text-white py-4 text-base font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors"
               id={id}
               quantity={quantity}
             >
@@ -144,8 +144,8 @@ export default async function page({ params }: { params: { hamada: string } }) {
           {/* Trust badges */}
           <div className="grid grid-cols-3 gap-4 border-t border-gray-100 pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-                <Truck size={18} className="text-green-600" />
+              <div className="w-10 h-10 rounded-full bg-min-color/40 flex items-center justify-center shrink-0">
+                <Truck size={18} className="text-main-color" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">Free Delivery</p>
@@ -154,8 +154,8 @@ export default async function page({ params }: { params: { hamada: string } }) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-                <RotateCcw size={18} className="text-green-600" />
+              <div className="w-10 h-10 rounded-full bg-min-color/40 flex items-center justify-center shrink-0">
+                <RotateCcw size={18} className="text-main-color" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">30 Days Return</p>
@@ -164,8 +164,8 @@ export default async function page({ params }: { params: { hamada: string } }) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-                <ShieldCheck size={18} className="text-green-600" />
+              <div className="w-10 h-10 rounded-full bg-min-color/40 flex items-center justify-center shrink-0">
+                <ShieldCheck size={18} className="text-main-color" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">Secure Payment</p>

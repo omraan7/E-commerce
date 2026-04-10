@@ -205,7 +205,7 @@ export default function CheckoutForm({ datacart }: { datacart: CartResponse }) {
                                         </div>
                                         <div>
                                             <p className="text-sm font-semibold text-gray-800">Cash on Delivery</p>
-                                            <p className="text-xs text-gray-500">Pay when your order arrives at your doorstep</p>
+                                            <p className="text-xs text-gray-800">Pay when your order arrives at your doorstep</p>
                                         </div>
                                     </div>
                                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === "cod" ? "border-main-bg-main-color bg-main-color" : "border-gray-300"
@@ -237,12 +237,8 @@ export default function CheckoutForm({ datacart }: { datacart: CartResponse }) {
                                         </div>
                                         <div>
                                             <p className="text-sm font-semibold text-gray-800">Pay Online</p>
-                                            <p className="text-xs text-gray-500">Secure payment with Credit/Debit Card via Stripe</p>
-                                            <div className="flex items-center gap-1 mt-1.5">
-                                                <div className="w-8 h-5 bg-blue-600 rounded text-white text-[8px] flex items-center justify-center font-bold">VISA</div>
-                                                <div className="w-8 h-5 bg-red-500 rounded text-white text-[8px] flex items-center justify-center font-bold">MC</div>
-                                                <div className="w-8 h-5 bg-blue-400 rounded text-white text-[8px] flex items-center justify-center font-bold">AMEX</div>
-                                            </div>
+                                            <p className="text-xs text-gray-800">Secure payment with Credit/Debit Card via Stripe</p>
+                                            
                                         </div>
                                     </div>
                                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === "online" ? "border-main-bg-main-color bg-main-color" : "border-gray-300"
@@ -258,7 +254,7 @@ export default function CheckoutForm({ datacart }: { datacart: CartResponse }) {
 
                             {/* Secure & Encrypted */}
                             <div className="border border-gray-200 rounded-xl p-4 flex items-center gap-3 bg-gray-50">
-                                <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
                                     <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>

@@ -16,7 +16,7 @@ export default function page() {
             className="w-full rounded-2xl overflow-hidden mb-8 flex items-center justify-center"
             style={{ background: "#fdf3ee", minHeight: 280 }}
           >
-                        <Image src={image2} alt="FreshCart logo" width={500} height={500} />
+                        <Image src={image2} alt="FreshCart logo" width={700} height={500} />
             
            
           </div>

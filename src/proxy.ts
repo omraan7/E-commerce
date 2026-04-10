@@ -24,7 +24,7 @@ export async function proxy (req:NextRequest){
     return NextResponse.next()
     
   }
-return NextResponse.redirect(`${process.env.NEXTAUTH_URL}Login`)
+return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/Login`)
 
 
 

@@ -51,6 +51,7 @@ export default function Navbar() {
             <FaGift className="text-main-color" />
             New Arrivals Daily
           </span>
+          
         </div>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5"><FaPhone className="text-main-color" /> +1 (800) 123-4567</span>
@@ -121,7 +122,9 @@ export default function Navbar() {
 
             <Link href="/brand" className="px-3 py-2 text-sm text-gray-700 hover:text-main-color transition-colors">Brands</Link>
           </div>
-
+<div className="  ">
+            <GlobalColorSwitcher />
+          </div>
           {/* Right icons */}
           <div className="flex items-center gap-3">
             {/* Support */}
@@ -135,6 +138,7 @@ export default function Navbar() {
 
             {/* Wishlist */}
             <div className="relative">
+
               <Link href="/wishlist" className="text-gray-600 hover:text-main-color transition-colors">
                 <CiHeart className="w-6 h-6" />
               </Link>
@@ -156,11 +160,11 @@ export default function Navbar() {
             {/* Auth button */}
             {isAuthenticated
               ? <button onClick={handleLogOut} className="hidden lg:flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
-                  <CiUser className="w-4 h-4" /> {username}
-                </button>
+                <CiUser className="w-4 h-4" /> {username}
+              </button>
               : <Link href="/Login" className="flex items-center gap-1.5 bg-main-color text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
-                  <CiUser className="w-4 h-4" /> Sign In
-                </Link>
+                <CiUser className="w-4 h-4" /> Sign In
+              </Link>
             }
 
             {/* Mobile hamburger */}
@@ -220,12 +224,12 @@ export default function Navbar() {
 
             {isAuthenticated
               ? <button onClick={() => { handleLogOut(); setMobileOpen(false) }} className="flex items-center gap-2 py-2.5 text-sm text-red-500 w-full">
-                  <FaSignOutAlt /> Sign Out
-                </button>
+                <FaSignOutAlt /> Sign Out
+              </button>
               : <div className="flex gap-3 pt-2">
-                  <Link href="/Login" onClick={() => setMobileOpen(false)} className="flex-1 text-center bg-main-color text-white text-sm py-2.5 rounded-full">Sign In</Link>
-                  <Link href="/Register" onClick={() => setMobileOpen(false)} className="flex-1 text-center border border-main-color text-main-color text-sm py-2.5 rounded-full">Sign Up</Link>
-                </div>
+                <Link href="/Login" onClick={() => setMobileOpen(false)} className="flex-1 text-center bg-main-color text-white text-sm py-2.5 rounded-full">Sign In</Link>
+                <Link href="/Register" onClick={() => setMobileOpen(false)} className="flex-1 text-center border border-main-color text-main-color text-sm py-2.5 rounded-full">Sign Up</Link>
+              </div>
             }
           </div>
         )}

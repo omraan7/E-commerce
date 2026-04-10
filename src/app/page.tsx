@@ -11,12 +11,37 @@ import { Spinner } from "@/components/ui/spinner";
 import TopofCategories from "@/components/AllCategories/TopofCategories";
 import PromoBanners from "@/components/cartHome/CartHome";
 import { Headphones, RotateCcw, ShieldCheck, Truck } from "lucide-react";
+import GlobalColorSwitcher from "@/components/GlobalColorSwitcher/GlobalColorSwitcher";
 const features = [
-  { icon: Truck, title: "Free Shipping", desc: "On orders over 500 EGP" },
-  { icon: RotateCcw, title: "Easy Returns", desc: "14-day return policy" },
-  { icon: ShieldCheck, title: "Secure Payment", desc: "100% secure checkout" },
-  { icon: Headphones, title: "24/7 Support", desc: "Contact us anytime" },
-];
+  {
+    icon: Truck,
+    title: "Free Shipping",
+    desc: "On orders over 500 EGP",
+    bg: "bg-blue-50",
+    color: "text-blue-500",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure Payment",
+    desc: "100% secure transactions",
+    bg: "bg-green-50",
+    color: "text-green-500",
+  },
+  {
+    icon: RotateCcw,
+    title: "Easy Returns",
+    desc: "14-day return policy",
+    bg: "bg-orange-50",
+    color: "text-orange-500",
+  },
+  {
+    icon: Headphones,
+    title: "24/7 Support",
+    desc: "Dedicated support team",
+    bg: "bg-purple-50",
+    color: "text-purple-500",
+  },
+]
 
 const imageslist = [img.src, img2.src, img3.src]
 const AllCategories = lazy(() => import("@/components/AllCategories/AllCategories"))
@@ -25,6 +50,7 @@ export default async function page() {
 
   return (
     <>
+     
       <div className=" ">
 
         {/* <AppSlider spaceBetween={0} imageslist={imageslist} /> */}
@@ -53,22 +79,28 @@ export default async function page() {
           ]}
         />
       </div>
-      <div className=" container mx-auto flex  flex-wrap   justify-around     gap-2 ">
-        {features.map(({ icon: Icon, title, desc }) => (
-          <div
-            key={title}
-            className="flex items-center bg-white gap-2 w-full   sm:w-1/2  md:w-1/5 h-15 p-5 py-10 
-                   hover:shadow-xl hover:shadow-main-color/30 hover:scale-102 
-                                                                               my-2 border rounded-2xl px-3"
-          >            <div className=" text-sm md:tex-md w-9 h-9 md:w-11 md:h-11 bg-main-color/5 rounded-xl flex items-center justify-center shrink-0">
-              <Icon size={22} className="text-main-color/90" />
+      <div className="container mx-auto">
+        <div className="flex flex-col sm:flex-row bg-white  mt-5 overflow-hidden  ">
+          {features.map(({ icon: Icon, title, desc, bg, color }, index) => (
+            <div
+              key={title}
+              className={`flex items-center gap-4 px-8 py-6 flex-1
+             hover:bg-main-color/10 transition-colors duration-200
+             ${index !== features.length - 1
+                  ? "border-b sm:border-b-0 sm:border-r border-gray-100"
+                  : ""
+                }`}
+            >
+              <div className={`w-11 h-11 ${bg} rounded-xl flex items-center justify-center shrink-0`}>
+                <Icon size={20} className={color} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">{title}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-bold text-gray-900">{title}</p>
-              <p className="text-xs text-gray-600">{desc}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <TopofCategories />
       <Suspense fallback={<div className="bg-main-color flex justify-center  h-80  text-white items-center">   <Spinner /></div>}>

@@ -78,7 +78,7 @@ const progress = Math.min((subtotal / freeShippingThreshold) * 100, 100);
           {/* Checkout Button */}
           <div className="px-4 pb-4">
            <Link href="/checkout">
-            <button  className="w-full bg-main-color hover:bg-[#c1121f] transition-colors duration-200 text-white font-semibold py-3 rounded-xl shadow-sm active:scale-95">
+            <button  className="w-full bg-main-color hover:bg-min-color transition-colors duration-200 text-white font-semibold py-3 rounded-xl shadow-sm active:scale-95">
               Proceed to Checkout
             </button></Link>
           </div>

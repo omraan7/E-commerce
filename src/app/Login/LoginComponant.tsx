@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { handeleGetCartData, handeleGetWishlistData } from './Login.services'
-import { Mail, Lock, Eye, EyeOff, ShieldCheck, Users, Star } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, ShieldCheck, Users, Star, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
 const schema = z.object({
@@ -26,7 +26,7 @@ export default function LoginComponant() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm({
     defaultValues: { email: "", password: "" },
     resolver: zodResolver(schema),
   })
@@ -167,10 +167,23 @@ export default function LoginComponant() {
 
         {/* Submit */}
         <FreshButton
+          disabled={isSubmitting}
           type="submit"
-          className="w-full bg-main-color hover:bg-main-color/90 text-white py-3 rounded-lg font-semibold text-base transition-colors mt-1"
-        >
-          Sign In
+          className={`w-full py-3 rounded-lg font-semibold text-base transition-colors mt-1 flex items-center justify-center gap-2
+            ${isSubmitting
+              ? "bg-green-400 cursor-not-allowed opacity-70"
+              : "bg-main-color hover:bg-green-100 hover:text-main-color cursor-pointer"
+            } text-white`}        >
+          {isSubmitting ? (
+            <>
+              <Loader2 size={18} className="animate-spin" />
+
+              Waiting...
+            </>
+          ) : (
+            "Sign In"
+          )}
+
         </FreshButton>
       </form>
 
