@@ -23,10 +23,10 @@ export default async function page({ params }: { params: { hamada: string } }) {
 
   return (
     <div className='container mx-auto px-4 py-8'>
-      <div className="flex gap-8 items-start">
+      <div className="flex flex-col md:flex-row gap-8 items-start">
 
         {/* ===== LEFT: Sticky Image ===== */}
-        <div className="w-[38%] sticky top-6 self-start">
+        <div className=" w-full md:w-[38%] md:sticky md:top-6 self-start">
           <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white p-4">
             <AppSlider
               imageslist={images}
@@ -38,7 +38,7 @@ export default async function page({ params }: { params: { hamada: string } }) {
         </div>
 
         {/* ===== RIGHT: Product Info ===== */}
-        <div className="flex-1 min-w-0">
+        <div className=" md:flex-1 w-full md:w-[62%]  md:min-w-0  mt-2.5 md:mt-0">
 
           {/* Breadcrumb tags */}
           <div className="flex gap-2 mb-4">
