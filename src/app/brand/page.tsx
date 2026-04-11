@@ -5,8 +5,7 @@ import BrandCart from './brandcart';
 
 export default async function page() {
     const data = await getAllBrands()
-        console.log("Allbrand",data);
-
+ 
   return (
  <>
 

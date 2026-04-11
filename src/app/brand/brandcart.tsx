@@ -8,10 +8,10 @@ export default async function BrandCart() {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 container mx-auto my-5 gap-5">
-        {brands.map((brand) => (
+        {brands?.map((brand) => (
           <Link
             key={brand._id}
-            href={`/brand/${brand._id}`}
+            href={`/brandDetails/${brand._id}`}
             className="relative group text-center mx-auto w-full pt-3 pb-5 px-4 rounded-2xl border border-gray-100 bg-white hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col items-center"
           >
             {/* Logo */}
