@@ -4,14 +4,13 @@ import { getAllProducts } from "@/app/home.services";
 import { AllProductData } from "@/app/homeInterface";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import AppButtonW from "@/components/shard/AppButton/AppButtonW";
-import { Badge, CirclePlus } from "lucide-react";
+import {  CirclePlus } from "lucide-react";
 import RatingStar from "@/components/RatingStar/RatingStar";
 import AppButton from "@/components/shard/AppButton/AppButton";
 import { CiHeart } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
+ 
 interface BrandDetailsPageProps {
   params: { hamada: string };
 }
@@ -23,8 +22,7 @@ interface BrandInfo {
   slug: string;
 }
 
-// ─── Page component ───────────────────────────────────────────────────────────
-
+ 
 export default async function BrandDetailsPage({ params }: BrandDetailsPageProps) {
 
   const { hamada } = await params;
@@ -66,8 +64,7 @@ export default async function BrandDetailsPage({ params }: BrandDetailsPageProps
   return (
     <main className="min-h-screen bg-gray-50">
 
-      {/* ── Breadcrumb ── */}
-      <div className="container mx-auto px-4 py-4">
+       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-500">
           <Link href="/" className="hover:text-main-color transition-colors">
             Home
@@ -81,8 +78,7 @@ export default async function BrandDetailsPage({ params }: BrandDetailsPageProps
         </nav>
       </div>
 
-      {/* ── Brand Hero ── */}
-      <section className="bg-white border-b border-gray-100">
+       <section className="bg-white border-b border-gray-100">
         <div className="container mx-auto px-4 py-8 flex flex-col sm:flex-row items-center gap-6">
           <div className="w-40 h-24 flex items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 p-4 shrink-0">
             <img
@@ -102,8 +98,7 @@ export default async function BrandDetailsPage({ params }: BrandDetailsPageProps
         </div>
       </section>
 
-      {/* ── Products Grid ── */}
-      <section className="bg-white border-b border-gray-100">
+       <section className="bg-white border-b border-gray-100">
         <div className="container mx-auto px-4 py-8">
           {products.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-gray-400">
@@ -144,9 +139,6 @@ export default async function BrandDetailsPage({ params }: BrandDetailsPageProps
                     <RatingStar ratingsAverage={product.ratingsAverage} ratingsQuantity={product.ratingsQuantity} />
                   </div>
 
-                  {/* <CardDescription className="w-full bg-amber-400">
-                                {description && description.slice(0, 50)}
-                            </CardDescription> */}
                   <div className=" flex gap-1 text-sm md:gap-2 md:text-md  font-bold justify-between w-full   ">
                     {product.priceAfterDiscount ? <> <span className="text-main-color">{product.priceAfterDiscount} EGP</span> <span className="text-gray-400 line-through">{product.price} EGP</span> </> : <span className="text-black">{product.price} EGP</span>}
                     <AppButton id={product.id} className=" bg-main-color     text-white  hover:bg-white hover:text-main-color" quantity={product.quantity || 0}><CirclePlus /></AppButton>

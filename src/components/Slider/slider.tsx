@@ -207,10 +207,30 @@ export default function AppSlider({
         secondaryBtn: { label: "View Deals" },
     }))
 
-    return (
-        <div ref={wrapperRef} className="relative pb-2">
+    return (<>
+              <style>{`
+             
+                .hero-swiper .swiper-pagination {
+                position: absolute;
+                    top: 360px;
+                }
+                .hero-swiper .swiper-pagination-bullet {
+                    width: 10px;
+                    height: 10px;
+                    background: rgba(255,255,255,0.55);
+                    opacity: 1;
+                    transition: all 0.3s;
+                    border-radius: 999px;
+                }
+                .hero-swiper .swiper-pagination-bullet-active {
+                    width: 28px;
+                    background: #fff;
+                    border-radius: 999px;
+                }
+            `}</style>
+        <div ref={wrapperRef} className="relative  hh "  >
             <Swiper
-            
+                className="hero-swiper"
                 modules={[Navigation, Pagination, A11y, Autoplay]}
                 spaceBetween={spaceBetween}
                 slidesPerView={slidesPerView}
@@ -222,7 +242,7 @@ export default function AppSlider({
             >
                 {resolvedSlides.map((slide, i) => (
                     <SwiperSlide key={i} >
-                        <div className="relative h-100 w-full ">
+                        <div className="relative h-100 w-full  ">
                             <Image fill src={slide.image} alt={slide.title} className="object-cover " />
                         </div>
                     </SwiperSlide>
@@ -235,5 +255,5 @@ export default function AppSlider({
                 visible={visible}
             />
         </div>
-    )
+    </>)
 }
