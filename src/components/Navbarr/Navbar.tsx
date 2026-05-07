@@ -103,7 +103,7 @@ export default function Navbar() {
 
             {/* Categories dropdown */}
             <div className="relative" onMouseEnter={() => setCatOpen(true)} onMouseLeave={() => setCatOpen(false)}>
-              <button className="flex items-center gap-1 px-3 py-2 text-sm text-main-color font-medium hover:text-main-color transition-colors">
+              <button className="flex items-center gap-1 px-3 py-2 text-sm  font-medium hover:text-main-color transition-colors">
                 Categories
                 <svg className={`w-3.5 h-3.5 transition-transform ${catOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
